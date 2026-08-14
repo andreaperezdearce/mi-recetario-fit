@@ -6,95 +6,262 @@
 <title>Mi Recetario Fit</title>
 <style>
 :root{--bg:#f7f0e7;--card:#fffdf9;--ink:#382b24;--muted:#78685c;--brown:#684936;--brown2:#9a7658;--cream:#efe0ce;--line:#e5d4c2;--shadow:0 10px 30px rgba(67,45,31,.10)}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
 header{background:linear-gradient(135deg,#4d3328,#8d674e);color:#fff;padding:34px 18px 30px}
-.wrap{max-width:1150px;margin:auto}h1{margin:0;font-size:clamp(2.2rem,7vw,4.1rem)}.lead{opacity:.9;margin:8px 0 22px}
-.tools{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}input,select{width:100%;padding:13px 14px;border-radius:14px;border:1px solid var(--line);font:inherit;background:#fff;color:var(--ink)}
-main{padding:24px 18px 60px}.summary{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}.pill{background:var(--card);border:1px solid var(--line);padding:9px 13px;border-radius:999px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
-.visual{height:155px;background:linear-gradient(135deg,#ead7c1,#d4b79a);display:grid;place-items:center;font-size:4.5rem}.body{padding:17px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:8px}.tag{background:var(--cream);color:var(--brown);font-size:.8rem;font-weight:800;padding:6px 10px;border-radius:999px}
-.fav{border:0;background:transparent;font-size:1.5rem;color:#a56c2d;cursor:pointer}h2{font-size:1.25rem;margin:13px 0 6px}.meta{font-size:.9rem;color:var(--muted)}
-.macros{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:14px 0}.macro{background:#faf4ed;padding:8px 4px;border-radius:10px;text-align:center;font-size:.68rem;color:var(--muted)}.macro b{display:block;color:var(--ink);font-size:.88rem}
-button.open{width:100%;border:0;border-radius:13px;padding:11px;background:var(--brown);color:white;font-weight:800;cursor:pointer}
-dialog{border:0;padding:0;border-radius:22px;width:min(800px,calc(100% - 24px));box-shadow:0 25px 80px #0005}dialog::backdrop{background:#0007}
-.dh{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center}.dc{padding:20px;max-height:78vh;overflow:auto}
+.wrap{max-width:1150px;margin:auto}
+h1{margin:0;font-size:clamp(2.2rem,7vw,4.1rem);letter-spacing:-.04em}
+.lead{opacity:.9;margin:8px 0 22px}
+.tools{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+input,select{width:100%;padding:13px 14px;border-radius:14px;border:1px solid var(--line);font:inherit;background:#fff;color:var(--ink)}
+main{padding:24px 18px 60px}
+.summary{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.pill{background:var(--card);border:1px solid var(--line);padding:9px 13px;border-radius:999px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+.visual{height:155px;background:linear-gradient(135deg,#ead7c1,#d4b79a);display:grid;place-items:center;font-size:4.5rem}
+.body{padding:17px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tag{background:var(--cream);color:var(--brown);font-size:.8rem;font-weight:800;padding:6px 10px;border-radius:999px}
+h2{font-size:1.25rem;margin:13px 0 6px}
+.meta{font-size:.9rem;color:var(--muted)}
+.macros{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:14px 0}
+.macro{background:#faf4ed;padding:8px 4px;border-radius:10px;text-align:center;font-size:.68rem;color:var(--muted)}
+.macro b{display:block;color:var(--ink);font-size:.88rem}
+button.open{width:100%;border:0;border-radius:13px;padding:11px;background:var(--brown);color:#fff;font-weight:800;cursor:pointer}
+dialog{border:0;padding:0;border-radius:22px;width:min(820px,calc(100% - 24px));box-shadow:0 25px 80px #0005}
+dialog::backdrop{background:#0007}
+.dh{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center}
+.dc{padding:20px;max-height:78vh;overflow:auto}
 .close{border:0;background:var(--cream);color:var(--brown);padding:9px 12px;border-radius:12px;font-weight:800;cursor:pointer}
-.serv{display:flex;align-items:center;gap:10px;margin:15px 0}.serv button{width:38px;height:38px;border:0;border-radius:50%;background:var(--cream);font-size:1.2rem;color:var(--brown);cursor:pointer}
-table{width:100%;border-collapse:collapse;margin:12px 0 18px}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:.92rem}th{color:var(--brown)}.source{font-size:.75rem;padding:3px 7px;border-radius:999px;background:#f3e7db;color:var(--brown)}
-ul,ol{padding-left:23px}li{margin-bottom:8px;line-height:1.45}.note{font-size:.82rem;color:var(--muted);margin-top:12px}
+.servbox{background:#fbf5ee;border:1px solid var(--line);border-radius:16px;padding:14px;margin:14px 0}
+.serv{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.serv button{width:40px;height:40px;border:0;border-radius:50%;background:var(--brown);color:#fff;font-size:1.25rem;cursor:pointer}
+.serv strong{min-width:90px;text-align:center;font-size:1.05rem}
+.origin{font-size:.78rem;color:var(--muted);margin-top:8px}
+table{width:100%;border-collapse:collapse;margin:12px 0 18px}
+th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;font-size:.92rem}
+th{color:var(--brown)}
+.source{font-size:.74rem;padding:3px 7px;border-radius:999px;background:#f3e7db;color:var(--brown);white-space:nowrap}
+ul,ol{padding-left:23px}
+li{margin-bottom:8px;line-height:1.45}
+.note{font-size:.82rem;color:var(--muted);margin-top:12px}
 @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.tools{grid-template-columns:1fr 1fr}#q{grid-column:1/-1}}
-@media(max-width:620px){.grid{grid-template-columns:1fr}.tools{grid-template-columns:1fr}#q{grid-column:auto}.macros{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.tools{grid-template-columns:1fr}#q{grid-column:auto}.macros{grid-template-columns:repeat(2,1fr)}table{font-size:.85rem}}
 </style>
 </head>
 <body>
-<header><div class="wrap"><h1>Mi Recetario Fit</h1><div class="lead">Recetas con cálculo nutricional automático según tus ingredientes habituales.</div>
-<div class="tools"><input id="q" placeholder="Buscar receta o ingrediente…"><select id="cat"><option value="">Todas las categorías</option></select><select id="flt"><option value="">Todos los filtros</option><option value="low">Menos de 300 kcal/porción</option><option value="protein">20 g o más proteína/porción</option><option value="quick">Menos de 30 min</option></select></div></div></header>
-<main><div class="wrap"><div class="summary"><span class="pill" id="count"></span><span class="pill">Cálculo automático por receta y por porción</span></div><section class="grid" id="grid"></section></div></main>
-<dialog id="dlg"><div class="dh"><strong id="dt"></strong><button class="close" onclick="dlg.close()">Cerrar</button></div><div class="dc" id="content"></div></dialog>
+<header>
+<div class="wrap">
+<h1>Mi Recetario Fit</h1>
+<div class="lead">Recetas con cálculo nutricional automático según tus ingredientes habituales.</div>
+<div class="tools">
+<input id="q" placeholder="Buscar receta o ingrediente…">
+<select id="cat"><option value="">Todas las categorías</option></select>
+<select id="flt">
+<option value="">Todos los filtros</option>
+<option value="low">Menos de 300 kcal/porción</option>
+<option value="protein">20 g o más proteína/porción</option>
+<option value="quick">Menos de 30 min</option>
+</select>
+</div>
+</div>
+</header>
+
+<main>
+<div class="wrap">
+<div class="summary">
+<span class="pill" id="count"></span>
+<span class="pill">Porciones ajustables + cálculo automático</span>
+</div>
+<section class="grid" id="grid"></section>
+</div>
+</main>
+
+<dialog id="dlg">
+<div class="dh">
+<strong id="dt"></strong>
+<button class="close" onclick="dlg.close()">Cerrar</button>
+</div>
+<div class="dc" id="content"></div>
+</dialog>
 
 <script>
-const ING={"harina_avena": {"name": "Harina de avena integral", "unit": "g", "kcal": 389, "protein": 16.9, "carbs": 66.3, "fat": 6.9, "fiber": 10.6, "source": "genérico"}, "platano": {"name": "Plátano", "unit": "g", "kcal": 89, "protein": 1.1, "carbs": 22.8, "fat": 0.3, "fiber": 2.6, "source": "genérico"}, "huevo": {"name": "Huevo entero", "unit": "g", "kcal": 143, "protein": 12.6, "carbs": 0.7, "fat": 9.5, "fiber": 0, "source": "genérico", "unit_weight": 50}, "clara": {"name": "Clara de huevo", "unit": "g", "kcal": 52, "protein": 10.9, "carbs": 0.7, "fat": 0.2, "fiber": 0, "source": "genérico", "unit_weight": 33}, "aceite_coco": {"name": "Aceite de coco", "unit": "g", "kcal": 892, "protein": 0, "carbs": 0, "fat": 100, "fiber": 0, "source": "genérico"}, "nueces": {"name": "Nueces", "unit": "g", "kcal": 654, "protein": 15.2, "carbs": 13.7, "fat": 65.2, "fiber": 6.7, "source": "genérico"}, "cacao_carat": {"name": "Cacao Carat Extra Amargo (Puratos)", "unit": "g", "kcal": 308, "protein": 22.1, "carbs": 11.4, "fat": 11.0, "fiber": 0, "source": "etiqueta"}, "alusweet_gran": {"name": "AluSweet Alulosa granulada", "unit": "g", "kcal": 184, "protein": 0, "carbs": 85.4, "fat": 0, "fiber": 59.7, "source": "etiqueta"}, "alusweet_gotas": {"name": "AluSweet Alulosa gotas", "unit": "ml", "kcal": 2, "protein": 0, "carbs": 0, "fat": 0, "fiber": 0, "source": "etiqueta", "drops_per_ml": 20}, "yogurt_colun": {"name": "Yogurt Colun natural sin lactosa", "unit": "g", "kcal": 44, "protein": 6.2, "carbs": 4.2, "fat": 0.3, "fiber": 0, "source": "etiqueta", "pack_weight": 150}, "amapola": {"name": "Semilla de amapola", "unit": "g", "kcal": 525, "protein": 18.0, "carbs": 28.1, "fat": 41.6, "fiber": 19.5, "source": "genérico"}, "limon": {"name": "Limón", "unit": "g", "kcal": 29, "protein": 1.1, "carbs": 9.3, "fat": 0.3, "fiber": 2.8, "source": "genérico"}, "maizena": {"name": "Maizena / almidón de maíz", "unit": "g", "kcal": 381, "protein": 0.3, "carbs": 91.3, "fat": 0.1, "fiber": 0.9, "source": "genérico"}, "pollo": {"name": "Pechuga de pollo sin piel", "unit": "g", "kcal": 120, "protein": 22.5, "carbs": 0, "fat": 2.6, "fiber": 0, "source": "genérico"}, "atun": {"name": "Atún al agua drenado", "unit": "g", "kcal": 116, "protein": 25.5, "carbs": 0, "fat": 0.8, "fiber": 0, "source": "genérico"}, "mozzarella": {"name": "Queso mozzarella", "unit": "g", "kcal": 280, "protein": 28, "carbs": 3.1, "fat": 17, "fiber": 0, "source": "genérico"}, "leche_colun": {"name": "Leche Colun descremada sin lactosa", "unit": "ml", "kcal": 34, "protein": 3.3, "carbs": 4.7, "fat": 0.1, "fiber": 0, "source": "etiqueta"}, "vainilla": {"name": "Esencia de vainilla", "unit": "ml", "kcal": 288, "protein": 0.1, "carbs": 12.7, "fat": 0.1, "fiber": 0, "source": "genérico"}};
-const RECIPES=[{"id": 1, "name": "Queque fit de plátano", "category": "Postres", "servings": 8, "time": 50, "emoji": "🍌", "items": [{"key": "platano", "qty": 300, "unit": "g"}, {"key": "huevo", "qty": 2, "unit": "un"}, {"key": "harina_avena", "qty": 180, "unit": "g"}, {"key": "aceite_coco", "qty": 20, "unit": "g"}, {"key": "alusweet_gran", "qty": 25, "unit": "g"}, {"key": "vainilla", "qty": 5, "unit": "ml"}], "steps": ["Precalienta el horno a 180 °C.", "Muele los plátanos y mézclalos con los huevos.", "Agrega harina, aceite de coco, endulzante y vainilla.", "Hornea 35–40 minutos o hasta que al insertar un palillo salga seco."]}, {"id": 2, "name": "Avena proteica con yogurt", "category": "Desayuno", "servings": 1, "time": 8, "emoji": "🥣", "items": [{"key": "harina_avena", "qty": 50, "unit": "g"}, {"key": "yogurt_colun", "qty": 150, "unit": "g"}, {"key": "leche_colun", "qty": 100, "unit": "ml"}, {"key": "platano", "qty": 80, "unit": "g"}], "steps": ["Mezcla la harina de avena con la leche.", "Agrega el yogurt y el plátano.", "Sirve frío o deja reposar en refrigeración."]}, {"id": 3, "name": "Pollo con mozzarella", "category": "Almuerzo", "servings": 2, "time": 30, "emoji": "🍗", "items": [{"key": "pollo", "qty": 300, "unit": "g"}, {"key": "mozzarella", "qty": 60, "unit": "g"}, {"key": "limon", "qty": 30, "unit": "g"}], "steps": ["Condimenta el pollo y cocina a la plancha.", "Agrega mozzarella al final para que se derrita.", "Termina con jugo de limón."]}, {"id": 4, "name": "Mousse de cacao y yogurt", "category": "Postres", "servings": 2, "time": 10, "emoji": "🍫", "items": [{"key": "yogurt_colun", "qty": 300, "unit": "g"}, {"key": "cacao_carat", "qty": 15, "unit": "g"}, {"key": "alusweet_gotas", "qty": 0.5, "unit": "ml"}], "steps": ["Mezcla el yogurt con el cacao.", "Añade AluSweet gotas a gusto.", "Refrigera antes de servir."]}, {"id": 5, "name": "Tortilla de claras y mozzarella", "category": "Cena", "servings": 1, "time": 15, "emoji": "🍳", "items": [{"key": "clara", "qty": 5, "unit": "un"}, {"key": "huevo", "qty": 1, "unit": "un"}, {"key": "mozzarella", "qty": 30, "unit": "g"}], "steps": ["Bate las claras con el huevo.", "Cocina en sartén antiadherente.", "Agrega mozzarella y dobla la tortilla."]}];
-const q=document.getElementById("q"),cat=document.getElementById("cat"),flt=document.getElementById("flt"),grid=document.getElementById("grid"),dlg=document.getElementById("dlg");
-[...new Set(RECIPES.map(r=>r.category))].sort().forEach(c=>cat.insertAdjacentHTML("beforeend",`<option>${c}</option>`));
+const ING={"harina_avena": {"name": "Harina de avena integral", "base_unit": "g", "kcal": 389, "protein": 16.9, "carbs": 66.3, "fat": 6.9, "fiber": 10.6, "source": "genérico"}, "platano": {"name": "Plátano", "base_unit": "g", "kcal": 89, "protein": 1.1, "carbs": 22.8, "fat": 0.3, "fiber": 2.6, "source": "genérico", "unit_weight": 118}, "huevo": {"name": "Huevo entero", "base_unit": "g", "kcal": 143, "protein": 12.6, "carbs": 0.7, "fat": 9.5, "fiber": 0, "source": "genérico", "unit_weight": 50}, "clara": {"name": "Clara de huevo", "base_unit": "g", "kcal": 52, "protein": 10.9, "carbs": 0.7, "fat": 0.2, "fiber": 0, "source": "genérico", "unit_weight": 33}, "aceite_coco": {"name": "Aceite de coco", "base_unit": "g", "kcal": 892, "protein": 0, "carbs": 0, "fat": 100, "fiber": 0, "source": "genérico", "tbsp_weight": 13.6, "tsp_weight": 4.5}, "nueces": {"name": "Nueces", "base_unit": "g", "kcal": 654, "protein": 15.2, "carbs": 13.7, "fat": 65.2, "fiber": 6.7, "source": "genérico"}, "cacao_carat": {"name": "Cacao Carat Extra Amargo (Puratos)", "base_unit": "g", "kcal": 308, "protein": 22.1, "carbs": 11.4, "fat": 11.0, "fiber": 0, "source": "etiqueta", "tbsp_weight": 5}, "alusweet_gran": {"name": "AluSweet Alulosa granulada", "base_unit": "g", "kcal": 184, "protein": 0, "carbs": 85.4, "fat": 0, "fiber": 59.7, "source": "etiqueta", "tsp_weight": 5}, "alusweet_gotas": {"name": "AluSweet Alulosa gotas", "base_unit": "ml", "kcal": 2, "protein": 0, "carbs": 0, "fat": 0, "fiber": 0, "source": "etiqueta", "drops_per_ml": 20}, "yogurt_colun": {"name": "Yogurt Colun natural sin lactosa", "base_unit": "g", "kcal": 44, "protein": 6.2, "carbs": 4.2, "fat": 0.3, "fiber": 0, "source": "etiqueta", "pack_weight": 150}, "amapola": {"name": "Semilla de amapola", "base_unit": "g", "kcal": 525, "protein": 18.0, "carbs": 28.1, "fat": 41.6, "fiber": 19.5, "source": "genérico"}, "limon": {"name": "Limón", "base_unit": "g", "kcal": 29, "protein": 1.1, "carbs": 9.3, "fat": 0.3, "fiber": 2.8, "source": "genérico", "unit_weight": 58}, "maizena": {"name": "Maizena / almidón de maíz", "base_unit": "g", "kcal": 381, "protein": 0.3, "carbs": 91.3, "fat": 0.1, "fiber": 0.9, "source": "genérico", "tbsp_weight": 8}, "pollo": {"name": "Pechuga de pollo sin piel", "base_unit": "g", "kcal": 120, "protein": 22.5, "carbs": 0, "fat": 2.6, "fiber": 0, "source": "genérico"}, "atun": {"name": "Atún al agua drenado", "base_unit": "g", "kcal": 116, "protein": 25.5, "carbs": 0, "fat": 0.8, "fiber": 0, "source": "genérico"}, "mozzarella": {"name": "Queso mozzarella", "base_unit": "g", "kcal": 280, "protein": 28, "carbs": 3.1, "fat": 17, "fiber": 0, "source": "genérico"}, "leche_colun": {"name": "Leche Colun descremada sin lactosa", "base_unit": "ml", "kcal": 34, "protein": 3.3, "carbs": 4.7, "fat": 0.1, "fiber": 0, "source": "etiqueta", "tbsp_ml": 15, "tsp_ml": 5, "cup_ml": 200}, "vainilla": {"name": "Esencia de vainilla", "base_unit": "ml", "kcal": 288, "protein": 0.1, "carbs": 12.7, "fat": 0.1, "fiber": 0, "source": "genérico", "tbsp_ml": 15, "tsp_ml": 5}};
+const RECIPES=[{"id": 1, "name": "Queque fit de plátano", "category": "Postres", "servings": 8, "time": 50, "emoji": "🍌", "items": [{"key": "platano", "qty": 300, "unit": "g"}, {"key": "huevo", "qty": 2, "unit": "un"}, {"key": "harina_avena", "qty": 180, "unit": "g"}, {"key": "aceite_coco", "qty": 20, "unit": "g"}, {"key": "alusweet_gran", "qty": 25, "unit": "g"}, {"key": "vainilla", "qty": 5, "unit": "ml"}], "steps": ["Precalienta el horno a 180 °C.", "Muele los plátanos y mézclalos con los huevos.", "Agrega harina de avena, aceite de coco, AluSweet y vainilla.", "Hornea entre 35 y 40 minutos, o hasta que al insertar un palillo salga seco."]}, {"id": 2, "name": "Avena proteica con yogurt", "category": "Desayuno", "servings": 1, "time": 8, "emoji": "🥣", "items": [{"key": "harina_avena", "qty": 50, "unit": "g"}, {"key": "yogurt_colun", "qty": 150, "unit": "g"}, {"key": "leche_colun", "qty": 100, "unit": "ml"}, {"key": "platano", "qty": 80, "unit": "g"}], "steps": ["Mezcla la harina de avena con la leche.", "Agrega el yogurt y el plátano.", "Sirve de inmediato o deja reposar en refrigeración."]}, {"id": 3, "name": "Pollo con mozzarella", "category": "Almuerzo", "servings": 2, "time": 30, "emoji": "🍗", "items": [{"key": "pollo", "qty": 300, "unit": "g"}, {"key": "mozzarella", "qty": 60, "unit": "g"}, {"key": "limon", "qty": 30, "unit": "g"}], "steps": ["Condimenta la pechuga y cocínala a la plancha.", "Agrega la mozzarella al final para que se derrita.", "Termina con jugo de limón."]}, {"id": 4, "name": "Mousse de cacao y yogurt", "category": "Postres", "servings": 2, "time": 10, "emoji": "🍫", "items": [{"key": "yogurt_colun", "qty": 300, "unit": "g"}, {"key": "cacao_carat", "qty": 15, "unit": "g"}, {"key": "alusweet_gotas", "qty": 10, "unit": "gotas"}], "steps": ["Mezcla el yogurt con el cacao.", "Añade AluSweet gotas y mezcla nuevamente.", "Refrigera antes de servir."]}, {"id": 5, "name": "Tortilla de claras y mozzarella", "category": "Cena", "servings": 1, "time": 15, "emoji": "🍳", "items": [{"key": "clara", "qty": 5, "unit": "un"}, {"key": "huevo", "qty": 1, "unit": "un"}, {"key": "mozzarella", "qty": 30, "unit": "g"}], "steps": ["Bate las claras con el huevo entero.", "Cocina en una sartén antiadherente.", "Agrega la mozzarella y dobla la tortilla."]}];
 
-function gramsOrMl(item){
+const q=document.getElementById("q");
+const cat=document.getElementById("cat");
+const flt=document.getElementById("flt");
+const grid=document.getElementById("grid");
+const dlg=document.getElementById("dlg");
+
+[...new Set(RECIPES.map(r=>r.category))].sort()
+.forEach(c=>cat.insertAdjacentHTML("beforeend",`<option>${c}</option>`));
+
+function baseAmount(item){
   const ing=ING[item.key];
+  if(item.unit==="g" || item.unit==="ml") return item.qty;
   if(item.unit==="un" && ing.unit_weight) return item.qty*ing.unit_weight;
+  if(item.unit==="pote" && ing.pack_weight) return item.qty*ing.pack_weight;
+  if(item.unit==="gotas" && ing.drops_per_ml) return item.qty/ing.drops_per_ml;
+  if(item.unit==="cda"){
+    if(ing.tbsp_weight) return item.qty*ing.tbsp_weight;
+    if(ing.tbsp_ml) return item.qty*ing.tbsp_ml;
+  }
+  if(item.unit==="cdta"){
+    if(ing.tsp_weight) return item.qty*ing.tsp_weight;
+    if(ing.tsp_ml) return item.qty*ing.tsp_ml;
+  }
+  if(item.unit==="taza" && ing.cup_ml) return item.qty*ing.cup_ml;
   return item.qty;
 }
+
 function calcItem(item){
-  const ing=ING[item.key], base=gramsOrMl(item), factor=base/100;
-  return {kcal:ing.kcal*factor,protein:ing.protein*factor,carbs:ing.carbs*factor,fat:ing.fat*factor,fiber:ing.fiber*factor};
+  const ing=ING[item.key];
+  const factor=baseAmount(item)/100;
+  return {
+    kcal:ing.kcal*factor,
+    protein:ing.protein*factor,
+    carbs:ing.carbs*factor,
+    fat:ing.fat*factor,
+    fiber:ing.fiber*factor
+  };
 }
+
 function calcRecipe(r){
-  return r.items.map(calcItem).reduce((a,n)=>({kcal:a.kcal+n.kcal,protein:a.protein+n.protein,carbs:a.carbs+n.carbs,fat:a.fat+n.fat,fiber:a.fiber+n.fiber}),{kcal:0,protein:0,carbs:0,fat:0,fiber:0});
+  return r.items.map(calcItem).reduce((a,n)=>({
+    kcal:a.kcal+n.kcal,
+    protein:a.protein+n.protein,
+    carbs:a.carbs+n.carbs,
+    fat:a.fat+n.fat,
+    fiber:a.fiber+n.fiber
+  }),{kcal:0,protein:0,carbs:0,fat:0,fiber:0});
 }
-function round(n,d=1){return Math.round(n*10**d)/10**d}
+
+function round(n,d=1){
+  return Math.round(n*10**d)/10**d;
+}
+
 function matches(r){
-  const total=calcRecipe(r), per={kcal:total.kcal/r.servings,protein:total.protein/r.servings};
-  const s=q.value.trim().toLowerCase(), txt=(r.name+" "+r.items.map(i=>ING[i.key].name).join(" ")).toLowerCase();
-  let ok=!s||txt.includes(s); ok=ok&&(!cat.value||r.category===cat.value);
-  if(flt.value==="low")ok=ok&&per.kcal<300;
-  if(flt.value==="protein")ok=ok&&per.protein>=20;
-  if(flt.value==="quick")ok=ok&&r.time<30;
+  const total=calcRecipe(r);
+  const per={
+    kcal:total.kcal/r.servings,
+    protein:total.protein/r.servings
+  };
+  const s=q.value.trim().toLowerCase();
+  const txt=(r.name+" "+r.items.map(i=>ING[i.key].name).join(" ")).toLowerCase();
+  let ok=!s||txt.includes(s);
+  ok=ok&&(!cat.value||r.category===cat.value);
+  if(flt.value==="low") ok=ok&&per.kcal<300;
+  if(flt.value==="protein") ok=ok&&per.protein>=20;
+  if(flt.value==="quick") ok=ok&&r.time<30;
   return ok;
 }
+
 function render(){
   const list=RECIPES.filter(matches);
   document.getElementById("count").textContent=`${list.length} receta${list.length===1?"":"s"}`;
   grid.innerHTML=list.map(r=>{
-    const t=calcRecipe(r), p=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v/r.servings]));
-    return `<article class="card"><div class="visual">${r.emoji}</div><div class="body"><div class="top"><span class="tag">${r.category}</span></div><h2>${r.name}</h2><div class="meta">⏱ ${r.time} min · 🍽 ${r.servings} porciones</div><div class="macros"><div class="macro"><b>${round(p.kcal,0)}</b>kcal</div><div class="macro"><b>${round(p.protein)} g</b>prot.</div><div class="macro"><b>${round(p.carbs)} g</b>carb.</div><div class="macro"><b>${round(p.fat)} g</b>grasas</div><div class="macro"><b>${round(p.fiber)} g</b>fibra</div></div><button class="open" onclick="openRecipe(${r.id})">Ver receta</button></div></article>`;
+    const t=calcRecipe(r);
+    const p=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v/r.servings]));
+    return `
+    <article class="card">
+      <div class="visual">${r.emoji}</div>
+      <div class="body">
+        <div class="top"><span class="tag">${r.category}</span></div>
+        <h2>${r.name}</h2>
+        <div class="meta">⏱ ${r.time} min · 🍽 ${r.servings} porciones</div>
+        <div class="macros">
+          <div class="macro"><b>${round(p.kcal,0)}</b>kcal</div>
+          <div class="macro"><b>${round(p.protein)} g</b>prot.</div>
+          <div class="macro"><b>${round(p.carbs)} g</b>carb.</div>
+          <div class="macro"><b>${round(p.fat)} g</b>grasas</div>
+          <div class="macro"><b>${round(p.fiber)} g</b>fibra</div>
+        </div>
+        <button class="open" onclick="openRecipe(${r.id})">Ver receta</button>
+      </div>
+    </article>`;
   }).join("");
 }
-function itemDisplay(item,factor){
-  const ing=ING[item.key];
-  if(item.unit==="un") return `${round(item.qty*factor,2)} un de ${ing.name}`;
-  return `${round(item.qty*factor,2)} ${item.unit} de ${ing.name}`;
+
+function scaledQty(item,factor){
+  return round(item.qty*factor,2);
 }
+
+function displayItem(item,factor){
+  const ing=ING[item.key];
+  const qty=scaledQty(item,factor);
+  const unitLabels={un:"un",g:"g",ml:"ml",gotas:"gotas",pote:"pote",cda:"cda",cdta:"cdta",taza:"taza"};
+  return `${qty} ${unitLabels[item.unit]||item.unit} de ${ing.name}`;
+}
+
 function openRecipe(id){
-  const r=RECIPES.find(x=>x.id===id); let serv=r.servings;
+  const r=RECIPES.find(x=>x.id===id);
+  let servings=r.servings;
+
   function draw(){
-    const factor=serv/r.servings, t=calcRecipe(r);
+    const factor=servings/r.servings;
+    const original=calcRecipe(r);
+    const adjusted=Object.fromEntries(Object.entries(original).map(([k,v])=>[k,v*factor]));
+    const perServing=Object.fromEntries(Object.entries(adjusted).map(([k,v])=>[k,v/servings]));
+
     document.getElementById("dt").textContent=r.name;
     document.getElementById("content").innerHTML=`
-      <div class="tag">${r.category}</div>
-      <div class="serv"><strong>Porciones:</strong><button id="minus">−</button><strong>${serv}</strong><button id="plus">+</button></div>
+      <span class="tag">${r.category}</span>
+
+      <div class="servbox">
+        <div class="serv">
+          <strong>Porciones:</strong>
+          <button id="minus" aria-label="Disminuir porciones">−</button>
+          <strong>${servings}</strong>
+          <button id="plus" aria-label="Aumentar porciones">+</button>
+        </div>
+        <div class="origin">Receta original: ${r.servings} porciones.</div>
+      </div>
+
       <h3>Información nutricional</h3>
-      <table><tr><th></th><th>Receta ajustada</th><th>Por porción</th></tr>
-      ${["kcal","protein","carbs","fat","fiber"].map(k=>{const label={kcal:"Calorías",protein:"Proteínas",carbs:"Carbohidratos",fat:"Grasas",fiber:"Fibra"}[k]; const unit=k==="kcal"?" kcal":" g"; return `<tr><td>${label}</td><td>${round(t[k]*factor)}${unit}</td><td>${round(t[k]*factor/serv)}${unit}</td></tr>`}).join("")}
+      <table>
+        <tr><th></th><th>Receta ajustada</th><th>Por porción</th></tr>
+        <tr><td>Calorías</td><td>${round(adjusted.kcal)} kcal</td><td>${round(perServing.kcal)} kcal</td></tr>
+        <tr><td>Proteínas</td><td>${round(adjusted.protein)} g</td><td>${round(perServing.protein)} g</td></tr>
+        <tr><td>Carbohidratos</td><td>${round(adjusted.carbs)} g</td><td>${round(perServing.carbs)} g</td></tr>
+        <tr><td>Grasas</td><td>${round(adjusted.fat)} g</td><td>${round(perServing.fat)} g</td></tr>
+        <tr><td>Fibra</td><td>${round(adjusted.fiber)} g</td><td>${round(perServing.fiber)} g</td></tr>
       </table>
-      <h3>Ingredientes</h3>
-      <ul>${r.items.map(i=>`<li>${itemDisplay(i,factor)} <span class="source">${ING[i.key].source}</span></li>`).join("")}</ul>
-      <h3>Preparación</h3><ol>${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol>
-      <div class="note">Los productos marcados “etiqueta” usan los valores que fotografiaste. Los marcados “genérico” usan valores nutricionales de referencia.</div>`;
-    document.getElementById("minus").onclick=()=>{if(serv>1){serv--;draw()}};
-    document.getElementById("plus").onclick=()=>{serv++;draw()};
+
+      <h3>Ingredientes ajustados</h3>
+      <ul>
+        ${r.items.map(i=>`
+          <li>${displayItem(i,factor)} <span class="source">${ING[i.key].source}</span></li>
+        `).join("")}
+      </ul>
+
+      <h3>Preparación</h3>
+      <ol>${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol>
+
+      <div class="note">
+        Los ingredientes marcados “etiqueta” usan los valores de los productos fotografiados.
+        Los marcados “genérico” usan valores nutricionales de referencia.
+        Huevo entero: 50 g por unidad; clara: 33 g por unidad.
+      </div>
+    `;
+
+    document.getElementById("minus").onclick=()=>{
+      if(servings>1){servings--;draw();}
+    };
+    document.getElementById("plus").onclick=()=>{
+      servings++;
+      draw();
+    };
   }
-  draw(); dlg.showModal();
+
+  draw();
+  dlg.showModal();
 }
-[q,cat,flt].forEach(e=>e.addEventListener("input",render)); render();
+
+[q,cat,flt].forEach(e=>e.addEventListener("input",render));
+render();
 </script>
-</body></html>
+</body>
+</html>
