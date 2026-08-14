@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mi Recetario Fit</title>
+<style>
+:root{--bg:#F7F1E8;--card:#FFFDF9;--text:#3D3028;--muted:#7A6A5C;--accent:#6F4E37;--accent2:#9A7658;--soft:#EFE2D2;--line:#E4D4C3}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+header{background:linear-gradient(135deg,#5A3E2B,#9A7658);color:white;padding:34px 20px}
+.wrap{max-width:1100px;margin:auto} h1{margin:0;font-size:clamp(2.2rem,7vw,4rem)} .sub{margin-top:8px;opacity:.9}
+main{padding:24px 18px 60px} .notice{background:#FFF9F2;border:1px solid var(--line);padding:14px 16px;border-radius:16px;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 10px 24px rgba(74,52,39,.08)}
+.top{display:flex;justify-content:space-between;align-items:center} .num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:white;font-weight:800}
+.tag{background:var(--soft);color:var(--accent);padding:6px 10px;border-radius:999px;font-size:.82rem;font-weight:800}
+h2{margin:16px 0 6px;font-size:1.35rem} .meta{color:var(--muted);margin-bottom:14px}
+.macros{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.macros div{background:#FBF6F0;border-radius:12px;padding:9px 6px;text-align:center}
+.macros b{display:block;font-size:.95rem} .macros span{display:block;font-size:.72rem;color:var(--muted);margin-top:2px}
+details{margin-top:16px;border-top:1px solid var(--line);padding-top:14px} summary{cursor:pointer;color:var(--accent);font-weight:800}
+li{margin-bottom:7px;line-height:1.45} footer{text-align:center;color:var(--muted);padding:0 20px 30px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.macros{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><h1>Mi Recetario Fit</h1><div class="sub">10 recetas visibles sin depender de JavaScript.</div></div></header>
+<main><div class="wrap">
+<div class="notice"><strong>Prueba de compatibilidad:</strong> si ves las 10 tarjetas de abajo, confirmamos que el problema anterior era el visor y no las recetas.</div>
+<div class="grid">
+    <article class="card">
+      <div class="top"><span class="num">1</span><span class="tag">Postres</span></div>
+      <h2>Queque fit de plátano</h2>
+      <div class="meta">50 min · 8 porciones</div>
+      <div class="macros">
+        <div><b>230 kcal</b><span>Calorías</span></div>
+        <div><b>6 g</b><span>Proteína</span></div>
+        <div><b>34 g</b><span>Carbohidratos</span></div>
+        <div><b>8 g</b><span>Grasas</span></div>
+        <div><b>3 g</b><span>Fibra</span></div>
+      </div>
+      <details>
+        <summary>Ver receta completa</summary>
+        <h3>Ingredientes</h3>
+        <ul><li>3 plátanos maduros</li><li>2 huevos</li><li>180 g de harina tradicional</li><li>40 g de avena</li><li>1 cdta de polvos de hornear</li><li>1 cdta de canela</li><li>30 ml de aceite</li><li>Endulzante a gusto</li></ul>
+        <h3>Preparación</h3>
+        <ol><li>Precalienta el horno a 180 °C.</li><li>Muele los plátanos y mézclalos con los huevos y el aceite.</li><li>Agrega la harina, avena, polvos de hornear y canela.</li><li>Vierte en un molde y hornea entre 35 y 40 minutos.</li></ol>
+      </details>
+    </article>
+    
+    <article class="card">
+      <div class="top"><span class="num">2</span><span class="tag">Desayuno</span></div>
+      <h2>Avena nocturna proteica</h2>
+      <div class="meta">10 min · 1 porción</div>
+      <div class="macros">
+        <div><b>295 kcal</b><span>Calorías</span></div>
+        <div><b>20 g</b><span>Proteína</span></div>
+        <div><b>38 g</b><span>Carbohidratos</span></div>
+        <div><b>7 g</b><span>Grasas</span></div>
+        <div><b>6 g</b><span>Fibra</span></div>
+      </div>
+      <details>
+        <summary>Ver receta completa</summary>
+        <h3>Ingredientes</h3>
+        <ul><li>50 g de avena</li><li>150 g de yogur natural</li><li>100 ml de leche</li><li>10 g de semillas de chía</li><li>100 g de fruta</li></ul>
+        <h3>Preparación</h3>
+        <ol><li>Mezcla la avena, yogur, leche y chía en un frasco.</li><li>Refrigera durante toda la noche.</li><li>Agrega la fruta antes de servir.</li></ol>
+      </details>
+    </article>
+    
+    <article class="card">
+      <div class="top"><span class="num">3</span><span class="tag">Almuerzo</span></div>
+      <h2>Pollo con arroz y verduras</h2>
+      <div class="meta">35 min · 2 porciones</div>
+      <div class="macros">
+        <div><b>440 kcal</b><span>Calorías</span></div>
+        <div><b>38 g</b><span>Proteína</span></div>
+        <div><b>48 g</b><span>Carbohidratos</span></div>
+        <div><b>10 g</b><span>Grasas</span></div>
+        <div><b>5 g</b><span>Fibra</span></div>
+      </div>
+      <details>
+        <summary>Ver receta completa</summary>
+        <h3>Ingredientes</h3>
+        <ul><li>300 g de pechuga de pollo</li><li>120 g de arroz crudo</li><li>1 zanahoria</li><li>1 zapallo italiano</li><li>1/2 pimentón</li><li>Condimentos a gusto</li></ul>
+        <h3>Preparación</h3>
+        <ol><li>Cuece el arroz.</li><li>Corta y saltea el pollo.</li><li>Agrega las verduras y cocina hasta que estén tiernas.</li><li>Sirve junto al arroz.</li></ol>
+      </details>
+    </article>
+    
+    <article class="card">
+      <div class="top"><span class="num">4</span><span class="tag">Cena</span></div>
+      <h2>Tortilla de verduras</h2>
+      <div class="meta">20 min · 2 porciones</div>
+      <div class="macros">
+        <div><b>260 kcal</b><span>Calorías</span></div>
+        <div><b>18 g</b><span>Proteína</span></div>
+        <div><b>12 g</b><span>Carbohidratos</span></div>
+        <div><b>16 g</b><span>Grasas</span></div>
+        <div><b>4 g</b><span>Fibra</span></div>
+      </div>
+      <details>
+        <summary>Ver receta completa</summary>
+        <h3>Ingredientes</h3>
+        <ul><li>4 huevos</li><li>1/2 cebolla</li><li>1 tomate</li><li>1/2 pimentón</li><li>Espinaca a gusto</li></ul>
+        <h3>Preparación</h3>
+        <ol><li>Pica las verduras.</li><li>Saltéalas ligeramente.</li><li>Bate los huevos e incorpóralos.</li><li>Cocina a fuego medio hasta que la tortilla esté firme.</li></ol>
+      </details>
+    </article>
+    
+    <article class="card">
+      <div class="top"><span class="num">5</span><span class="tag">Snack</span></div>
+      <h2>Yogur con fruta y nueces</h2>
+      <div class="meta">5 min · 1 porción</div>
+      <div class="macros">
+        <div><b>240 kcal</b><span>Calorías</span></div>
+        <div><b>14 g</b><span>Proteína</span></div>
+        <div><b>24 g</b><span>Carbohidratos</span></div>
+        <div><b>10 g</b><span>Grasas</span></div>
+        <div><b>4 g</b><span>Fibra</span></div>
+      </div>
+      <details>
+        <summary>Ver receta completa</summary>
+        <h3>Ingredientes</h3>
+        <ul><li>170 g de yogur natural</li><li>100 g de fruta</li><li>15 g de nueces</li><li>Canela a gusto</li></ul>
+        <h3>Preparación</h3>
+        <ol><li>Pon el yogur en un bowl.</li><li>Agrega la fruta y las nueces.</li><li>Espolvorea canela.</li></ol>
+      </details>
+    </article>
+    
+    <article class="card">
+      <div class="top"><span class="num">6</span><span class="tag">Desayuno</span></div>
+      <h2>Panqueques de avena y plátano</h2>
+      <div class="meta">20 min · 2 porciones</div>
+      <div class="macros">
+        <div><b>310 kcal</b><span>Calorías</span></div>
+        <div><b>13 g</b><span>Proteína</span></div>
+        <div><b>46 g</b><span>Carbohidratos</span></div>
+        <div><b>9 g</b><span>Grasas</span></div>
+        <div><b>5 g</b><span>Fibra</span></div>
+      </div>
+      <details>
+        <summary>Ver receta completa</summary>
+        <h3>Ingredientes</h3>
+        <ul><li>1 plátano</li><li>2 huevos</li><li>80 g de avena</li><li>1/2 cdta de canela</li><li>1/2 cdta de polvos de hornear</li></ul>
+        <h3>Preparación</h3>
+        <ol><li>Licúa todos los ingredientes.</li><li>Calienta una sartén antiadherente.</li><li>Forma panqueques pequeños.</li><li>Cocina por ambos lados.</li></ol>
+      </details>
+    </article>
+    
+    <article class="card">
+      <div class="top"><span class="num">7</span><span class="tag">Almuerzo</span></div>
+      <h2>Ensalada de garbanzos y atún</h2>
+      <div class="meta">15 min · 2 porciones</div>
+      <div class="macros">
+        <div><b>390 kcal</b><span>Calorías</span></div>
+        <div><b>31 g</b><span>Proteína</span></div>
+        <div><b>36 g</b><span>Carbohidratos</span></div>
+        <div><b>13 g</b><span>Grasas</span></div>
+        <div><b>10 g</b><span>Fibra</span></div>
+      </div>
+      <details>
+        <summary>Ver receta completa</summary>
+        <h3>Ingredientes</h3>
+        <ul><li>240 g de garbanzos cocidos</li><li>1 lata de atún al agua</li><li>1 tomate</li><li>1/2 pepino</li><li>1/4 cebolla morada</li><li>1 cdta de aceite de oliva</li><li>Limón</li></ul>
+        <h3>Preparación</h3>
+        <ol><li>Lava y escurre los garbanzos.</li><li>Pica las verduras.</li><li>Mezcla todo con el atún.</li><li>Aliña con limón y aceite.</li></ol>
+      </details>
+    </article>
+    
+    <article class="card">
+      <div class="top"><span class="num">8</span><span class="tag">Cena</span></div>
+      <h2>Wrap integral de pollo</h2>
+      <div class="meta">20 min · 1 porción</div>
+      <div class="macros">
+        <div><b>420 kcal</b><span>Calorías</span></div>
+        <div><b>35 g</b><span>Proteína</span></div>
+        <div><b>42 g</b><span>Carbohidratos</span></div>
+        <div><b>13 g</b><span>Grasas</span></div>
+        <div><b>7 g</b><span>Fibra</span></div>
+      </div>
+      <details>
+        <summary>Ver receta completa</summary>
+        <h3>Ingredientes</h3>
+        <ul><li>1 tortilla integral</li><li>120 g de pollo cocido</li><li>Lechuga</li><li>Tomate</li><li>30 g de palta</li><li>1 cda de yogur natural</li></ul>
+        <h3>Preparación</h3>
+        <ol><li>Calienta la tortilla.</li><li>Agrega el pollo, verduras y palta.</li><li>Añade el yogur como salsa.</li><li>Enrolla y sirve.</li></ol>
+      </details>
+    </article>
+    
+    <article class="card">
+      <div class="top"><span class="num">9</span><span class="tag">Postres</span></div>
+      <h2>Mousse rápida de cacao y yogur</h2>
+      <div class="meta">10 min · 2 porciones</div>
+      <div class="macros">
+        <div><b>180 kcal</b><span>Calorías</span></div>
+        <div><b>12 g</b><span>Proteína</span></div>
+        <div><b>20 g</b><span>Carbohidratos</span></div>
+        <div><b>6 g</b><span>Grasas</span></div>
+        <div><b>3 g</b><span>Fibra</span></div>
+      </div>
+      <details>
+        <summary>Ver receta completa</summary>
+        <h3>Ingredientes</h3>
+        <ul><li>300 g de yogur griego natural</li><li>15 g de cacao amargo</li><li>Endulzante a gusto</li><li>20 g de chocolate 70% opcional</li></ul>
+        <h3>Preparación</h3>
+        <ol><li>Mezcla el yogur con el cacao.</li><li>Endulza a gusto.</li><li>Refrigera 20 minutos si quieres una textura más firme.</li><li>Agrega chocolate picado al servir.</li></ol>
+      </details>
+    </article>
+    
+    <article class="card">
+      <div class="top"><span class="num">10</span><span class="tag">Snack</span></div>
+      <h2>Batido de frutilla y avena</h2>
+      <div class="meta">5 min · 1 porción</div>
+      <div class="macros">
+        <div><b>275 kcal</b><span>Calorías</span></div>
+        <div><b>18 g</b><span>Proteína</span></div>
+        <div><b>38 g</b><span>Carbohidratos</span></div>
+        <div><b>6 g</b><span>Grasas</span></div>
+        <div><b>6 g</b><span>Fibra</span></div>
+      </div>
+      <details>
+        <summary>Ver receta completa</summary>
+        <h3>Ingredientes</h3>
+        <ul><li>150 g de frutillas</li><li>40 g de avena</li><li>200 ml de leche</li><li>100 g de yogur natural</li><li>Hielo a gusto</li></ul>
+        <h3>Preparación</h3>
+        <ol><li>Pon todos los ingredientes en la licuadora.</li><li>Licúa hasta obtener una mezcla homogénea.</li><li>Sirve inmediatamente.</li></ol>
+      </details>
+    </article>
+    </div>
+</div></main>
+<footer>Mi Recetario Fit · versión compatible</footer>
+</body></html>
