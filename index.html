@@ -12,7 +12,7 @@ header{background:linear-gradient(135deg,#4d3328,#8d674e);color:white;padding:28
 input,select,textarea,button{font:inherit}input,select,textarea{padding:11px;border-radius:12px;border:1px solid #e5d4c2;background:white}
 .btn{border:0;border-radius:12px;padding:11px 14px;background:#684936;color:white;font-weight:700;cursor:pointer}.light{background:white;color:#684936}.soft{background:#efe0ce;color:#684936}.danger{background:#8b2f2f}.hidden{display:none!important}
 main{padding:22px 18px 55px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fffdf9;border:1px solid #e5d4c2;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(67,45,31,.1)}.visual{height:140px;display:grid;place-items:center;font-size:4rem;background:linear-gradient(135deg,#ead7c1,#d4b79a)}.body{padding:16px}.tag{display:inline-block;background:#efe0ce;color:#684936;padding:5px 9px;border-radius:999px;font-size:.8rem;font-weight:700}.meta{color:#78685c;font-size:.9rem}.macros{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:13px 0}.macro{background:#faf4ed;border-radius:9px;padding:7px 4px;text-align:center;font-size:.68rem;color:#78685c}.macro b{display:block;color:#382b24}.actions{display:flex;gap:7px}.actions button{flex:1}
-dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));box-shadow:0 25px 80px #0005}dialog::backdrop{background:#0007}.dh{padding:17px;border-bottom:1px solid #e5d4c2;display:flex;justify-content:space-between;align-items:center}.dc{padding:18px;max-height:78vh;overflow:auto}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.full{grid-column:1/-1}.fg{display:flex;flex-direction:column;gap:5px}.ingredient-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin-bottom:8px}table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #e5d4c2;text-align:left}.serv{display:flex;gap:10px;align-items:center;margin:14px 0}.serv button{width:38px;height:38px;border-radius:50%;border:0;background:#684936;color:white}.source{font-size:.74rem;background:#f3e7db;color:#684936;padding:3px 6px;border-radius:999px}.status{font-size:.85rem;margin-top:8px}
+dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));box-shadow:0 25px 80px #0005}dialog::backdrop{background:#0007}.dh{padding:17px;border-bottom:1px solid #e5d4c2;display:flex;justify-content:space-between;align-items:center}.dc{padding:18px;max-height:78vh;overflow:auto}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.full{grid-column:1/-1}.fg{display:flex;flex-direction:column;gap:5px}.ingredient-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin-bottom:8px}table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #e5d4c2;text-align:left}.serv{display:flex;gap:10px;align-items:center;margin:14px 0}.serv button{width:38px;height:38px;border-radius:50%;border:0;background:#684936;color:white}.source{font-size:.74rem;background:#f3e7db;color:#684936;padding:3px 6px;border-radius:999px}.status{font-size:.85rem;margin-top:8px}.ing-admin-table{width:100%;border-collapse:collapse}.ing-admin-table th,.ing-admin-table td{padding:8px;border-bottom:1px solid #e5d4c2;vertical-align:top}.ing-admin-table .mini-actions{display:flex;gap:6px;flex-wrap:wrap}.brand-pill{display:inline-block;background:#efe0ce;color:#684936;padding:2px 7px;border-radius:999px;font-size:.75rem}.muted{color:#78685c;font-size:.82rem}
 @media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.tools{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.grid{grid-template-columns:1fr}.tools{grid-template-columns:1fr}.macros{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}}
 </style>
@@ -24,6 +24,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));
 <select id="cat"><option value="">Todas las categorías</option></select>
 <select id="flt"><option value="">Todos los filtros</option><option value="low">Menos de 300 kcal</option><option value="protein">20 g o más proteína</option><option value="quick">Menos de 30 min</option></select>
 <button class="btn light hidden" id="newBtn">+ Nueva receta</button>
+<button class="btn light hidden" id="ingredientsBtn">Ingredientes</button>
 <button class="btn light" id="loginBtn">Administrador</button>
 </div><div class="status" id="authStatus"></div></div></header>
 <main><div class="wrap"><div id="count">Cargando…</div><section id="grid" class="grid"></section></div></main>
@@ -32,6 +33,55 @@ dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));
 <dialog id="viewDlg"><div class="dh"><strong id="viewTitle"></strong><button class="btn soft" onclick="viewDlg.close()">Cerrar</button></div><div class="dc" id="viewContent"></div></dialog>
 <dialog id="editDlg"><div class="dh"><strong id="editTitle">Nueva receta</strong><button class="btn soft" onclick="editDlg.close()">Cerrar</button></div><form class="dc" id="recipeForm"><input type="hidden" id="editId"><div class="formgrid"><div class="fg"><label>Nombre</label><input id="name" required></div><div class="fg"><label>Categoría</label><input id="category" required></div><div class="fg"><label>Porciones</label><input id="servings" type="number" min="1" value="1" required></div><div class="fg"><label>Tiempo total (min)</label><input id="time" type="number" min="1" value="20" required></div><div class="fg"><label>Ícono</label><input id="emoji" value="🥗"></div><div class="fg"><label>Ingredientes</label><button type="button" class="btn soft" id="addIngredient">+ Agregar ingrediente</button></div><div class="fg full"><div id="ingredientRows"></div></div><div class="fg full"><label>Preparación — un paso por línea</label><textarea id="steps" required></textarea></div><div class="fg full"><button class="btn" type="submit">Guardar receta</button></div></div></form></dialog>
 
+
+<dialog id="ingredientsDlg">
+  <div class="dh">
+    <strong>Administrar ingredientes</strong>
+    <button class="btn soft" onclick="ingredientsDlg.close()">Cerrar</button>
+  </div>
+  <div class="dc">
+    <div class="formgrid">
+      <div class="fg full">
+        <button class="btn" type="button" id="newIngredientBtn">+ Nuevo ingrediente</button>
+      </div>
+      <div class="fg full">
+        <div id="ingredientsTableWrap"></div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="ingredientEditDlg">
+  <div class="dh">
+    <strong id="ingredientEditTitle">Nuevo ingrediente</strong>
+    <button class="btn soft" onclick="ingredientEditDlg.close()">Cerrar</button>
+  </div>
+  <form class="dc" id="ingredientForm">
+    <input type="hidden" id="ingredientKeyOriginal">
+    <div class="formgrid">
+      <div class="fg"><label>Nombre</label><input id="ingredientName" required></div>
+      <div class="fg"><label>Marca (opcional)</label><input id="ingredientBrand"></div>
+      <div class="fg"><label>Clave interna</label><input id="ingredientKey" required></div>
+      <div class="fg"><label>Unidad base</label><select id="ingredientBaseUnit"><option value="g">g</option><option value="ml">ml</option></select></div>
+      <div class="fg"><label>kcal por 100 g/ml</label><input id="ingredientKcal" type="number" step="0.01" required></div>
+      <div class="fg"><label>Proteínas</label><input id="ingredientProtein" type="number" step="0.01" required></div>
+      <div class="fg"><label>Carbohidratos</label><input id="ingredientCarbs" type="number" step="0.01" required></div>
+      <div class="fg"><label>Grasas</label><input id="ingredientFat" type="number" step="0.01" required></div>
+      <div class="fg"><label>Fibra</label><input id="ingredientFiber" type="number" step="0.01" required></div>
+      <div class="fg"><label>Fuente</label><select id="ingredientSource"><option value="genérico">Genérico</option><option value="etiqueta">Etiqueta</option></select></div>
+      <div class="fg"><label>Peso por unidad (g)</label><input id="ingredientUnitWeight" type="number" step="0.01"></div>
+      <div class="fg"><label>Peso por pote (g)</label><input id="ingredientPackWeight" type="number" step="0.01"></div>
+      <div class="fg"><label>Gotas por ml</label><input id="ingredientDropsPerMl" type="number" step="0.01"></div>
+      <div class="fg"><label>Peso 1 cda (g)</label><input id="ingredientTbspWeight" type="number" step="0.01"></div>
+      <div class="fg"><label>Peso 1 cdta (g)</label><input id="ingredientTspWeight" type="number" step="0.01"></div>
+      <div class="fg"><label>Volumen 1 cda (ml)</label><input id="ingredientTbspMl" type="number" step="0.01"></div>
+      <div class="fg"><label>Volumen 1 cdta (ml)</label><input id="ingredientTspMl" type="number" step="0.01"></div>
+      <div class="fg"><label>Volumen 1 taza (ml)</label><input id="ingredientCupMl" type="number" step="0.01"></div>
+      <div class="fg full"><button class="btn" type="submit">Guardar ingrediente</button></div>
+    </div>
+  </form>
+</dialog>
+
 <script>
 const SUPABASE_URL="https://twchkpbvcbfrxyflhvlk.supabase.co";
 const SUPABASE_KEY="sb_publishable_rd6Vkqd7rE6tpXFbfnwhhQ_JR8QLdi7";
@@ -39,7 +89,7 @@ const OWNER_UID="9728c965-2cf2-4595-83b8-a89b1132b645";
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let ING={},RECIPES=[],isAdmin=false;
 const q=document.getElementById("q"),cat=document.getElementById("cat"),flt=document.getElementById("flt"),grid=document.getElementById("grid");
-const loginDlg=document.getElementById("loginDlg"),viewDlg=document.getElementById("viewDlg"),editDlg=document.getElementById("editDlg");
+const loginDlg=document.getElementById("loginDlg"),viewDlg=document.getElementById("viewDlg"),editDlg=document.getElementById("editDlg"),ingredientsDlg=document.getElementById("ingredientsDlg"),ingredientEditDlg=document.getElementById("ingredientEditDlg");
 const el = {
   count: document.getElementById("count"),
   newBtn: document.getElementById("newBtn"),
@@ -61,18 +111,43 @@ const el = {
   addIngredient: document.getElementById("addIngredient"),
   recipeForm: document.getElementById("recipeForm"),
   viewTitle: document.getElementById("viewTitle"),
-  viewContent: document.getElementById("viewContent")
+  viewContent: document.getElementById("viewContent"),
+  ingredientsBtn: document.getElementById("ingredientsBtn"),
+  newIngredientBtn: document.getElementById("newIngredientBtn"),
+  ingredientsTableWrap: document.getElementById("ingredientsTableWrap"),
+  ingredientForm: document.getElementById("ingredientForm"),
+  ingredientEditTitle: document.getElementById("ingredientEditTitle"),
+  ingredientKeyOriginal: document.getElementById("ingredientKeyOriginal"),
+  ingredientName: document.getElementById("ingredientName"),
+  ingredientBrand: document.getElementById("ingredientBrand"),
+  ingredientKey: document.getElementById("ingredientKey"),
+  ingredientBaseUnit: document.getElementById("ingredientBaseUnit"),
+  ingredientKcal: document.getElementById("ingredientKcal"),
+  ingredientProtein: document.getElementById("ingredientProtein"),
+  ingredientCarbs: document.getElementById("ingredientCarbs"),
+  ingredientFat: document.getElementById("ingredientFat"),
+  ingredientFiber: document.getElementById("ingredientFiber"),
+  ingredientSource: document.getElementById("ingredientSource"),
+  ingredientUnitWeight: document.getElementById("ingredientUnitWeight"),
+  ingredientPackWeight: document.getElementById("ingredientPackWeight"),
+  ingredientDropsPerMl: document.getElementById("ingredientDropsPerMl"),
+  ingredientTbspWeight: document.getElementById("ingredientTbspWeight"),
+  ingredientTspWeight: document.getElementById("ingredientTspWeight"),
+  ingredientTbspMl: document.getElementById("ingredientTbspMl"),
+  ingredientTspMl: document.getElementById("ingredientTspMl"),
+  ingredientCupMl: document.getElementById("ingredientCupMl")
 };
 function round(n,d=1){return Math.round(n*10**d)/10**d}
 function baseAmount(i){const g=ING[i.key];if(!g)return 0;if(i.unit==="g"||i.unit==="ml")return i.qty;if(i.unit==="un"&&g.unit_weight)return i.qty*g.unit_weight;if(i.unit==="pote"&&g.pack_weight)return i.qty*g.pack_weight;if(i.unit==="gotas"&&g.drops_per_ml)return i.qty/g.drops_per_ml;if(i.unit==="cda")return i.qty*(g.tbsp_weight||g.tbsp_ml||1);if(i.unit==="cdta")return i.qty*(g.tsp_weight||g.tsp_ml||1);if(i.unit==="taza")return i.qty*(g.cup_ml||1);return i.qty}
 function calcItem(i){const g=ING[i.key],f=baseAmount(i)/100;return{kcal:g.kcal*f,protein:g.protein*f,carbs:g.carbs*f,fat:g.fat*f,fiber:g.fiber*f}}
 function calcRecipe(r){return r.items.map(calcItem).reduce((a,n)=>({kcal:a.kcal+n.kcal,protein:a.protein+n.protein,carbs:a.carbs+n.carbs,fat:a.fat+n.fat,fiber:a.fiber+n.fiber}),{kcal:0,protein:0,carbs:0,fat:0,fiber:0})}
 function refreshCats(){const cur=cat.value,cs=[...new Set(RECIPES.map(r=>r.category))].sort();cat.innerHTML='<option value="">Todas las categorías</option>'+cs.map(c=>`<option>${c}</option>`).join("");cat.value=cs.includes(cur)?cur:""}
-function matches(r){const t=calcRecipe(r),p={kcal:t.kcal/r.servings,protein:t.protein/r.servings},s=q.value.trim().toLowerCase(),txt=(r.name+" "+r.items.map(i=>ING[i.key]?.name||"").join(" ")).toLowerCase();let ok=!s||txt.includes(s);ok=ok&&(!cat.value||r.category===cat.value);if(flt.value==="low")ok=ok&&p.kcal<300;if(flt.value==="protein")ok=ok&&p.protein>=20;if(flt.value==="quick")ok=ok&&r.time_minutes<30;return ok}
+function matches(r){const t=calcRecipe(r),p={kcal:t.kcal/r.servings,protein:t.protein/r.servings},s=q.value.trim().toLowerCase(),txt=(r.name+" "+r.items.map(i=>((ING[i.key]?.name||"")+" "+(ING[i.key]?.brand||""))).join(" ")).toLowerCase();let ok=!s||txt.includes(s);ok=ok&&(!cat.value||r.category===cat.value);if(flt.value==="low")ok=ok&&p.kcal<300;if(flt.value==="protein")ok=ok&&p.protein>=20;if(flt.value==="quick")ok=ok&&r.time_minutes<30;return ok}
 function render(){refreshCats();const list=RECIPES.filter(matches);document.getElementById("count").textContent=`${list.length} receta${list.length===1?"":"s"}`;grid.innerHTML=list.map(r=>{const t=calcRecipe(r),p=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v/r.servings]));return `<article class="card"><div class="visual">${r.emoji||"🥗"}</div><div class="body"><span class="tag">${r.category}</span><h2>${r.name}</h2><div class="meta">⏱ ${r.time_minutes} min · 🍽 ${r.servings} porciones</div><div class="macros"><div class="macro"><b>${round(p.kcal,0)}</b>kcal</div><div class="macro"><b>${round(p.protein)} g</b>prot.</div><div class="macro"><b>${round(p.carbs)} g</b>carb.</div><div class="macro"><b>${round(p.fat)} g</b>grasas</div><div class="macro"><b>${round(p.fiber)} g</b>fibra</div></div><div class="actions"><button class="btn" onclick="openRecipe(${r.id})">Ver</button>${isAdmin?`<button class="btn soft" onclick="editRecipe(${r.id})">Editar</button><button class="btn danger" onclick="deleteRecipe(${r.id})">Eliminar</button>`:""}</div></div></article>`}).join("")}
 function displayItem(i,f){const g=ING[i.key],n=round(i.qty*f,2);if(i.unit==="un"){let pl=g.name;if(g.name==="Huevo entero")pl="Huevos enteros";else if(g.name==="Clara de huevo")pl="Claras de huevo";if(Number.isInteger(n))return `${n} ${n===1?g.name.toLowerCase():pl.toLowerCase()}`;const gr=g.unit_weight?round(n*g.unit_weight,0):null;return gr?`${n} ${pl.toLowerCase()} (aprox. ${gr} g)`:`${n} ${pl.toLowerCase()}`}return `${n} ${i.unit} de ${g.name.toLowerCase()}`}
-function openRecipe(id){const r=RECIPES.find(x=>x.id===id);let serv=r.servings;function draw(){const f=serv/r.servings,t=calcRecipe(r),adj=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v*f])),per=Object.fromEntries(Object.entries(adj).map(([k,v])=>[k,v/serv]));el.viewTitle.textContent=r.name;el.viewContent.innerHTML=`<span class="tag">${r.category}</span><div class="serv"><strong>Porciones:</strong><button id="minus">−</button><strong>${serv}</strong><button id="plus">+</button></div><h3>Información nutricional</h3><table><tr><th></th><th>Receta ajustada</th><th>Por porción</th></tr>${[["kcal","Calorías"," kcal"],["protein","Proteínas"," g"],["carbs","Carbohidratos"," g"],["fat","Grasas"," g"],["fiber","Fibra"," g"]].map(x=>`<tr><td>${x[1]}</td><td>${round(adj[x[0]])}${x[2]}</td><td>${round(per[x[0]])}${x[2]}</td></tr>`).join("")}</table><h3>Ingredientes</h3><ul>${r.items.map(i=>`<li>${displayItem(i,f)} <span class="source">${ING[i.key].source}</span></li>`).join("")}</ul><h3>Preparación</h3><ol>${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol>`;minus.onclick=()=>{if(serv>1){serv--;draw()}};plus.onclick=()=>{serv++;draw()}}draw();viewDlg.showModal()}
-function ingredientSelect(selected=""){return `<select class="ing-key">${Object.entries(ING).sort((a,b)=>a[1].name.localeCompare(b[1].name)).map(([k,v])=>`<option value="${k}" ${k===selected?"selected":""}>${v.name}</option>`).join("")}</select>`}
+function openRecipe(id){const r=RECIPES.find(x=>x.id===id);let serv=r.servings;function draw(){const f=serv/r.servings,t=calcRecipe(r),adj=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v*f])),per=Object.fromEntries(Object.entries(adj).map(([k,v])=>[k,v/serv]));el.viewTitle.textContent=r.name;el.viewContent.innerHTML=`<span class="tag">${r.category}</span><div class="serv"><strong>Porciones:</strong><button id="minus">−</button><strong>${serv}</strong><button id="plus">+</button></div><h3>Información nutricional</h3><table><tr><th></th><th>Receta ajustada</th><th>Por porción</th></tr>${[["kcal","Calorías"," kcal"],["protein","Proteínas"," g"],["carbs","Carbohidratos"," g"],["fat","Grasas"," g"],["fiber","Fibra"," g"]].map(x=>`<tr><td>${x[1]}</td><td>${round(adj[x[0]])}${x[2]}</td><td>${round(per[x[0]])}${x[2]}</td></tr>`).join("")}</table><h3>Ingredientes</h3><ul>${r.items.map(i=>`<li>${displayItem(i,f)} ${ING[i.key].brand?`<span class="brand-pill">${ING[i.key].brand}</span>`:""} <span class="source">${ING[i.key].source}</span></li>`).join("")}</ul><h3>Preparación</h3><ol>${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol>`;minus.onclick=()=>{if(serv>1){serv--;draw()}};plus.onclick=()=>{serv++;draw()}}draw();viewDlg.showModal()}
+function ingredientLabel(v){return v.brand?`${v.name} — ${v.brand}`:v.name}
+function ingredientSelect(selected=""){return `<select class="ing-key">${Object.entries(ING).sort((a,b)=>ingredientLabel(a[1]).localeCompare(ingredientLabel(b[1]))).map(([k,v])=>`<option value="${k}" ${k===selected?"selected":""}>${ingredientLabel(v)}</option>`).join("")}</select>`}
 function addIngredientRow(item={key:Object.keys(ING)[0],qty:100,unit:"g"}){const d=document.createElement("div");d.className="ingredient-row";d.innerHTML=`<div>${ingredientSelect(item.key)}</div><div><input class="ing-qty" type="number" step="0.01" min="0" value="${item.qty}" required></div><div><select class="ing-unit">${["g","ml","un","pote","gotas","cda","cdta","taza"].map(u=>`<option ${u===item.unit?"selected":""}>${u}</option>`).join("")}</select></div><button type="button" class="btn danger">×</button>`;d.querySelector("button").onclick=()=>d.remove();el.ingredientRows.appendChild(d)}
 function clearForm(){
   el.editId.value="";
@@ -86,7 +161,7 @@ function clearForm(){
   addIngredientRow();
 }
 async function loadData(){const [a,b]=await Promise.all([sb.from("ingredients").select("*").order("name"),sb.from("recipes").select("*").order("id")]);if(a.error||b.error){el.count.textContent="Error al cargar";console.error(a.error||b.error);return}ING=Object.fromEntries(a.data.map(x=>[x.key,x]));RECIPES=b.data;render()}
-async function refreshAuth(){const {data:{session}}=await sb.auth.getSession();isAdmin=!!session&&session.user.id===OWNER_UID;el.newBtn.classList.toggle("hidden",!isAdmin);el.loginBtn.textContent=isAdmin?"Cerrar sesión":"Administrador";el.authStatus.textContent=isAdmin?"Sesión de administrador activa":"";render()}
+async function refreshAuth(){const {data:{session}}=await sb.auth.getSession();isAdmin=!!session&&session.user.id===OWNER_UID;el.newBtn.classList.toggle("hidden",!isAdmin);el.ingredientsBtn.classList.toggle("hidden",!isAdmin);el.loginBtn.textContent=isAdmin?"Cerrar sesión":"Administrador";el.authStatus.textContent=isAdmin?"Sesión de administrador activa":"";render()}
 el.loginBtn.onclick=async()=>{if(isAdmin){await sb.auth.signOut();await refreshAuth()}else loginDlg.showModal()};
 el.loginForm.onsubmit=async e=>{e.preventDefault();el.loginMsg.textContent="Ingresando…";const {error}=await sb.auth.signInWithPassword({email:el.loginEmail.value,password:el.loginPassword.value});if(error){el.loginMsg.textContent=error.message;return}el.loginMsg.textContent="";loginDlg.close();await refreshAuth()};
 el.newBtn.onclick=()=>{clearForm();el.editTitle.textContent="Nueva receta";editDlg.showModal()};
@@ -140,6 +215,124 @@ el.recipeForm.onsubmit=async e=>{
   editDlg.close();
   await loadData();
 };
+
+function nullableNumber(v){
+  const s=String(v??"").trim();
+  return s===""?null:Number(s);
+}
+function slugifyIngredient(s){
+  return s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_+|_+$/g,"");
+}
+function renderIngredientAdmin(){
+  const rows=Object.values(ING).sort((a,b)=>ingredientLabel(a).localeCompare(ingredientLabel(b)));
+  el.ingredientsTableWrap.innerHTML=`<table class="ing-admin-table">
+    <tr><th>Ingrediente</th><th>Nutrición / 100</th><th>Fuente</th><th></th></tr>
+    ${rows.map(g=>`<tr>
+      <td><strong>${g.name}</strong>${g.brand?`<br><span class="brand-pill">${g.brand}</span>`:""}<br><span class="muted">${g.key}</span></td>
+      <td>${round(g.kcal)} kcal · P ${round(g.protein)} · C ${round(g.carbs)} · G ${round(g.fat)} · F ${round(g.fiber)}</td>
+      <td>${g.source||""}</td>
+      <td><div class="mini-actions"><button class="btn soft" onclick="editIngredient('${g.key}')">Editar</button><button class="btn danger" onclick="deleteIngredient('${g.key}')">Eliminar</button></div></td>
+    </tr>`).join("")}
+  </table>`;
+}
+function clearIngredientForm(){
+  el.ingredientKeyOriginal.value="";
+  el.ingredientName.value="";
+  el.ingredientBrand.value="";
+  el.ingredientKey.value="";
+  el.ingredientBaseUnit.value="g";
+  ["ingredientKcal","ingredientProtein","ingredientCarbs","ingredientFat","ingredientFiber","ingredientUnitWeight","ingredientPackWeight","ingredientDropsPerMl","ingredientTbspWeight","ingredientTspWeight","ingredientTbspMl","ingredientTspMl","ingredientCupMl"].forEach(k=>el[k].value="");
+  el.ingredientSource.value="genérico";
+}
+function editIngredient(key){
+  if(!isAdmin)return;
+  const g=ING[key];
+  el.ingredientEditTitle.textContent="Editar ingrediente";
+  el.ingredientKeyOriginal.value=g.key;
+  el.ingredientName.value=g.name||"";
+  el.ingredientBrand.value=g.brand||"";
+  el.ingredientKey.value=g.key||"";
+  el.ingredientBaseUnit.value=g.base_unit||"g";
+  el.ingredientKcal.value=g.kcal??0;
+  el.ingredientProtein.value=g.protein??0;
+  el.ingredientCarbs.value=g.carbs??0;
+  el.ingredientFat.value=g.fat??0;
+  el.ingredientFiber.value=g.fiber??0;
+  el.ingredientSource.value=g.source||"genérico";
+  el.ingredientUnitWeight.value=g.unit_weight??"";
+  el.ingredientPackWeight.value=g.pack_weight??"";
+  el.ingredientDropsPerMl.value=g.drops_per_ml??"";
+  el.ingredientTbspWeight.value=g.tbsp_weight??"";
+  el.ingredientTspWeight.value=g.tsp_weight??"";
+  el.ingredientTbspMl.value=g.tbsp_ml??"";
+  el.ingredientTspMl.value=g.tsp_ml??"";
+  el.ingredientCupMl.value=g.cup_ml??"";
+  ingredientEditDlg.showModal();
+}
+async function deleteIngredient(key){
+  if(!isAdmin)return;
+  const used=RECIPES.some(r=>r.items.some(i=>i.key===key));
+  if(used){alert("Este ingrediente está siendo usado por una o más recetas. Primero debes reemplazarlo en esas recetas.");return;}
+  if(!confirm("¿Eliminar este ingrediente?"))return;
+  const {error}=await sb.from("ingredients").delete().eq("key",key);
+  if(error){alert(error.message);return;}
+  await loadData();
+  renderIngredientAdmin();
+}
+el.ingredientsBtn.onclick=()=>{renderIngredientAdmin();ingredientsDlg.showModal()};
+el.newIngredientBtn.onclick=()=>{
+  clearIngredientForm();
+  el.ingredientEditTitle.textContent="Nuevo ingrediente";
+  ingredientEditDlg.showModal();
+};
+el.ingredientName.addEventListener("input",()=>{
+  if(!el.ingredientKeyOriginal.value)el.ingredientKey.value=slugifyIngredient(el.ingredientName.value+(el.ingredientBrand.value?("_"+el.ingredientBrand.value):""));
+});
+el.ingredientBrand.addEventListener("input",()=>{
+  if(!el.ingredientKeyOriginal.value)el.ingredientKey.value=slugifyIngredient(el.ingredientName.value+(el.ingredientBrand.value?("_"+el.ingredientBrand.value):""));
+});
+el.ingredientForm.onsubmit=async e=>{
+  e.preventDefault();
+  if(!isAdmin)return;
+  const original=el.ingredientKeyOriginal.value;
+  const key=el.ingredientKey.value.trim();
+  if(!key){alert("La clave interna no puede quedar vacía.");return;}
+  const obj={
+    key,
+    name:el.ingredientName.value.trim(),
+    brand:el.ingredientBrand.value.trim()||null,
+    base_unit:el.ingredientBaseUnit.value,
+    kcal:Number(el.ingredientKcal.value),
+    protein:Number(el.ingredientProtein.value),
+    carbs:Number(el.ingredientCarbs.value),
+    fat:Number(el.ingredientFat.value),
+    fiber:Number(el.ingredientFiber.value),
+    source:el.ingredientSource.value,
+    unit_weight:nullableNumber(el.ingredientUnitWeight.value),
+    pack_weight:nullableNumber(el.ingredientPackWeight.value),
+    drops_per_ml:nullableNumber(el.ingredientDropsPerMl.value),
+    tbsp_weight:nullableNumber(el.ingredientTbspWeight.value),
+    tsp_weight:nullableNumber(el.ingredientTspWeight.value),
+    tbsp_ml:nullableNumber(el.ingredientTbspMl.value),
+    tsp_ml:nullableNumber(el.ingredientTspMl.value),
+    cup_ml:nullableNumber(el.ingredientCupMl.value)
+  };
+  let error;
+  if(original){
+    if(original!==key && RECIPES.some(r=>r.items.some(i=>i.key===original))){
+      alert("No cambies la clave interna de un ingrediente que ya está usado en recetas. Puedes cambiar nombre, marca y datos nutricionales.");
+      return;
+    }
+    ({error}=await sb.from("ingredients").update(obj).eq("key",original));
+  }else{
+    ({error}=await sb.from("ingredients").insert(obj));
+  }
+  if(error){alert(error.message);return;}
+  ingredientEditDlg.close();
+  await loadData();
+  renderIngredientAdmin();
+};
+
 [q,cat,flt].forEach(el=>el.addEventListener("input",render));
 sb.auth.onAuthStateChange(()=>refreshAuth());
 (async()=>{await loadData();await refreshAuth()})();
