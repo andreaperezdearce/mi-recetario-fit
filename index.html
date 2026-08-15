@@ -8,13 +8,13 @@
 body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;background:#f7f0e7;color:#382b24}
 header{background:linear-gradient(135deg,#4d3328,#8d674e);color:white;padding:28px 18px}
 .wrap{max-width:1100px;margin:auto}h1{margin:0;font-size:clamp(2.2rem,7vw,4rem)}.lead{margin:8px 0 18px;opacity:.9}
-.tools{display:grid;grid-template-columns:2fr 1fr 1fr auto auto;gap:8px}
+.tools{display:grid;grid-template-columns:minmax(220px,2fr) minmax(160px,1fr) minmax(160px,1fr) auto auto auto;gap:8px}
 input,select,textarea,button{font:inherit}input,select,textarea{padding:11px;border-radius:12px;border:1px solid #e5d4c2;background:white}
 .btn{border:0;border-radius:12px;padding:11px 14px;background:#684936;color:white;font-weight:700;cursor:pointer}.light{background:white;color:#684936}.soft{background:#efe0ce;color:#684936}.danger{background:#8b2f2f}.hidden{display:none!important}
 main{padding:22px 18px 55px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fffdf9;border:1px solid #e5d4c2;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(67,45,31,.1)}.visual{height:140px;display:grid;place-items:center;font-size:4rem;background:linear-gradient(135deg,#ead7c1,#d4b79a)}.body{padding:16px}.tag{display:inline-block;background:#efe0ce;color:#684936;padding:5px 9px;border-radius:999px;font-size:.8rem;font-weight:700}.meta{color:#78685c;font-size:.9rem}.macros{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:13px 0}.macro{background:#faf4ed;border-radius:9px;padding:7px 4px;text-align:center;font-size:.68rem;color:#78685c}.macro b{display:block;color:#382b24}.actions{display:flex;gap:7px}.actions button{flex:1}
-dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));box-shadow:0 25px 80px #0005}dialog::backdrop{background:#0007}.dh{padding:17px;border-bottom:1px solid #e5d4c2;display:flex;justify-content:space-between;align-items:center}.dc{padding:18px;max-height:78vh;overflow:auto}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.full{grid-column:1/-1}.fg{display:flex;flex-direction:column;gap:5px}.ingredient-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin-bottom:8px}table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #e5d4c2;text-align:left}.serv{display:flex;gap:10px;align-items:center;margin:14px 0}.serv button{width:38px;height:38px;border-radius:50%;border:0;background:#684936;color:white}.source{font-size:.74rem;background:#f3e7db;color:#684936;padding:3px 6px;border-radius:999px}.status{font-size:.85rem;margin-top:8px}.ing-admin-table{width:100%;border-collapse:collapse}.ing-admin-table th,.ing-admin-table td{padding:8px;border-bottom:1px solid #e5d4c2;vertical-align:top}.ing-admin-table .mini-actions{display:flex;gap:6px;flex-wrap:wrap}.brand-pill{display:inline-block;background:#efe0ce;color:#684936;padding:2px 7px;border-radius:999px;font-size:.75rem}.muted{color:#78685c;font-size:.82rem}
+dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));box-shadow:0 25px 80px #0005}dialog::backdrop{background:#0007}.dh{padding:17px;border-bottom:1px solid #e5d4c2;display:flex;justify-content:space-between;align-items:center}.dc{padding:18px;max-height:78vh;overflow:auto}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.full{grid-column:1/-1}.fg{display:flex;flex-direction:column;gap:5px}.ingredient-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin-bottom:8px}table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #e5d4c2;text-align:left}.serv{display:flex;gap:10px;align-items:center;margin:14px 0}.serv button{width:38px;height:38px;border-radius:50%;border:0;background:#684936;color:white}.source{font-size:.74rem;background:#f3e7db;color:#684936;padding:3px 6px;border-radius:999px}.status{font-size:.85rem;margin-top:8px}.section-note{font-size:.82rem;color:#78685c;margin-top:2px}.optional-box{grid-column:1/-1;border:1px solid #e5d4c2;border-radius:14px;background:#fbf6f0;padding:12px}.optional-box summary{cursor:pointer;font-weight:700;color:#684936}.optional-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px}.auto-key{font-size:.78rem;color:#8a776a;margin-top:4px}.ing-admin-table{width:100%;border-collapse:collapse}.ing-admin-table th,.ing-admin-table td{padding:8px;border-bottom:1px solid #e5d4c2;vertical-align:top}.ing-admin-table .mini-actions{display:flex;gap:6px;flex-wrap:wrap}.brand-pill{display:inline-block;background:#efe0ce;color:#684936;padding:2px 7px;border-radius:999px;font-size:.75rem}.muted{color:#78685c;font-size:.82rem}
 @media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.tools{grid-template-columns:1fr 1fr}}
-@media(max-width:620px){.grid{grid-template-columns:1fr}.tools{grid-template-columns:1fr}.macros{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.tools{grid-template-columns:1fr}.macros{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.optional-box{grid-column:auto}.optional-grid{grid-template-columns:1fr}.ing-admin-table{font-size:.9rem}.ing-admin-table th:nth-child(2),.ing-admin-table td:nth-child(2){display:none}}
 </style>
 </head>
 <body>
@@ -51,6 +51,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));
   </div>
 </dialog>
 
+
 <dialog id="ingredientEditDlg">
   <div class="dh">
     <strong id="ingredientEditTitle">Nuevo ingrediente</strong>
@@ -58,26 +59,61 @@ dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));
   </div>
   <form class="dc" id="ingredientForm">
     <input type="hidden" id="ingredientKeyOriginal">
+    <input type="hidden" id="ingredientKey">
     <div class="formgrid">
-      <div class="fg"><label>Nombre</label><input id="ingredientName" required></div>
-      <div class="fg"><label>Marca (opcional)</label><input id="ingredientBrand"></div>
-      <div class="fg"><label>Clave interna</label><input id="ingredientKey" required></div>
-      <div class="fg"><label>Unidad base</label><select id="ingredientBaseUnit"><option value="g">g</option><option value="ml">ml</option></select></div>
-      <div class="fg"><label>kcal por 100 g/ml</label><input id="ingredientKcal" type="number" step="0.01" required></div>
-      <div class="fg"><label>Proteínas</label><input id="ingredientProtein" type="number" step="0.01" required></div>
-      <div class="fg"><label>Carbohidratos</label><input id="ingredientCarbs" type="number" step="0.01" required></div>
-      <div class="fg"><label>Grasas</label><input id="ingredientFat" type="number" step="0.01" required></div>
-      <div class="fg"><label>Fibra</label><input id="ingredientFiber" type="number" step="0.01" required></div>
-      <div class="fg"><label>Fuente</label><select id="ingredientSource"><option value="genérico">Genérico</option><option value="etiqueta">Etiqueta</option></select></div>
-      <div class="fg"><label>Peso por unidad (g)</label><input id="ingredientUnitWeight" type="number" step="0.01"></div>
-      <div class="fg"><label>Peso por pote (g)</label><input id="ingredientPackWeight" type="number" step="0.01"></div>
-      <div class="fg"><label>Gotas por ml</label><input id="ingredientDropsPerMl" type="number" step="0.01"></div>
-      <div class="fg"><label>Peso 1 cda (g)</label><input id="ingredientTbspWeight" type="number" step="0.01"></div>
-      <div class="fg"><label>Peso 1 cdta (g)</label><input id="ingredientTspWeight" type="number" step="0.01"></div>
-      <div class="fg"><label>Volumen 1 cda (ml)</label><input id="ingredientTbspMl" type="number" step="0.01"></div>
-      <div class="fg"><label>Volumen 1 cdta (ml)</label><input id="ingredientTspMl" type="number" step="0.01"></div>
-      <div class="fg"><label>Volumen 1 taza (ml)</label><input id="ingredientCupMl" type="number" step="0.01"></div>
-      <div class="fg full"><button class="btn" type="submit">Guardar ingrediente</button></div>
+      <div class="fg">
+        <label>Nombre</label>
+        <input id="ingredientName" required placeholder="Ej.: Yogurt natural sin lactosa">
+      </div>
+      <div class="fg">
+        <label>Marca <span class="muted">(opcional)</span></label>
+        <input id="ingredientBrand" placeholder="Ej.: Colun">
+      </div>
+
+      <div class="fg">
+        <label>Unidad base</label>
+        <select id="ingredientBaseUnit">
+          <option value="g">gramos (g)</option>
+          <option value="ml">mililitros (ml)</option>
+        </select>
+        <div class="section-note">Los valores nutricionales se registran por 100 g o 100 ml.</div>
+      </div>
+      <div class="fg">
+        <label>Fuente de los datos</label>
+        <select id="ingredientSource">
+          <option value="genérico">Genérico</option>
+          <option value="etiqueta">Etiqueta del producto</option>
+        </select>
+      </div>
+
+      <div class="fg full">
+        <strong>Información nutricional por 100 g / 100 ml</strong>
+      </div>
+      <div class="fg"><label>Calorías (kcal)</label><input id="ingredientKcal" type="number" min="0" step="0.01" required></div>
+      <div class="fg"><label>Proteínas (g)</label><input id="ingredientProtein" type="number" min="0" step="0.01" required></div>
+      <div class="fg"><label>Carbohidratos (g)</label><input id="ingredientCarbs" type="number" min="0" step="0.01" required></div>
+      <div class="fg"><label>Grasas (g)</label><input id="ingredientFat" type="number" min="0" step="0.01" required></div>
+      <div class="fg"><label>Fibra (g)</label><input id="ingredientFiber" type="number" min="0" step="0.01" required></div>
+
+      <details class="optional-box">
+        <summary>Equivalencias opcionales</summary>
+        <div class="section-note">Completa solo las que uses en recetas. Ej.: huevo por unidad, yogurt por pote, aceite por cucharada.</div>
+        <div class="optional-grid">
+          <div class="fg"><label>Peso por unidad (g)</label><input id="ingredientUnitWeight" type="number" min="0" step="0.01"></div>
+          <div class="fg"><label>Peso por pote (g)</label><input id="ingredientPackWeight" type="number" min="0" step="0.01"></div>
+          <div class="fg"><label>Gotas por ml</label><input id="ingredientDropsPerMl" type="number" min="0" step="0.01"></div>
+          <div class="fg"><label>Peso de 1 cucharada (g)</label><input id="ingredientTbspWeight" type="number" min="0" step="0.01"></div>
+          <div class="fg"><label>Peso de 1 cucharadita (g)</label><input id="ingredientTspWeight" type="number" min="0" step="0.01"></div>
+          <div class="fg"><label>Volumen de 1 cucharada (ml)</label><input id="ingredientTbspMl" type="number" min="0" step="0.01"></div>
+          <div class="fg"><label>Volumen de 1 cucharadita (ml)</label><input id="ingredientTspMl" type="number" min="0" step="0.01"></div>
+          <div class="fg"><label>Volumen de 1 taza (ml)</label><input id="ingredientCupMl" type="number" min="0" step="0.01"></div>
+        </div>
+      </details>
+
+      <div class="fg full">
+        <button class="btn" type="submit">Guardar ingrediente</button>
+        <div class="auto-key">La clave interna se genera automáticamente. No necesitas escribirla.</div>
+      </div>
     </div>
   </form>
 </dialog>
@@ -295,8 +331,12 @@ el.ingredientForm.onsubmit=async e=>{
   e.preventDefault();
   if(!isAdmin)return;
   const original=el.ingredientKeyOriginal.value;
-  const key=el.ingredientKey.value.trim();
-  if(!key){alert("La clave interna no puede quedar vacía.");return;}
+  let key=el.ingredientKey.value.trim();
+  if(!key){
+    key=slugifyIngredient(el.ingredientName.value+(el.ingredientBrand.value?("_"+el.ingredientBrand.value):""));
+    el.ingredientKey.value=key;
+  }
+  if(!key){alert("No fue posible generar la clave interna. Revisa el nombre del ingrediente.");return;}
   const obj={
     key,
     name:el.ingredientName.value.trim(),
