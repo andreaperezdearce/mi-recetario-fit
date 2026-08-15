@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mi Recetario Fit</title>
-<meta name="app-version" content="unidades-seguras-v1">
+<meta name="app-version" content="recetas-form-v2">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;background:#f7f0e7;color:#382b24}
@@ -13,9 +13,9 @@ header{background:linear-gradient(135deg,#4d3328,#8d674e);color:white;padding:28
 input,select,textarea,button{font:inherit}input,select,textarea{padding:11px;border-radius:12px;border:1px solid #e5d4c2;background:white}
 .btn{border:0;border-radius:12px;padding:11px 14px;background:#684936;color:white;font-weight:700;cursor:pointer}.light{background:white;color:#684936}.soft{background:#efe0ce;color:#684936}.danger{background:#8b2f2f}.hidden{display:none!important}
 main{padding:22px 18px 55px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fffdf9;border:1px solid #e5d4c2;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(67,45,31,.1)}.visual{height:140px;display:grid;place-items:center;font-size:4rem;background:linear-gradient(135deg,#ead7c1,#d4b79a)}.body{padding:16px}.tag{display:inline-block;background:#efe0ce;color:#684936;padding:5px 9px;border-radius:999px;font-size:.8rem;font-weight:700}.meta{color:#78685c;font-size:.9rem}.macros{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:13px 0}.macro{background:#faf4ed;border-radius:9px;padding:7px 4px;text-align:center;font-size:.68rem;color:#78685c}.macro b{display:block;color:#382b24}.actions{display:flex;gap:7px}.actions button{flex:1}
-dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));box-shadow:0 25px 80px #0005}dialog::backdrop{background:#0007}.dh{padding:17px;border-bottom:1px solid #e5d4c2;display:flex;justify-content:space-between;align-items:center}.dc{padding:18px;max-height:78vh;overflow:auto}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.full{grid-column:1/-1}.fg{display:flex;flex-direction:column;gap:5px}.ingredient-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin-bottom:8px}table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #e5d4c2;text-align:left}.serv{display:flex;gap:10px;align-items:center;margin:14px 0}.serv button{width:38px;height:38px;border-radius:50%;border:0;background:#684936;color:white}.source{font-size:.74rem;background:#f3e7db;color:#684936;padding:3px 6px;border-radius:999px}.status{font-size:.85rem;margin-top:8px}.section-note{font-size:.82rem;color:#78685c;margin-top:2px}.optional-box{grid-column:1/-1;border:1px solid #e5d4c2;border-radius:14px;background:#fbf6f0;padding:12px}.optional-box summary{cursor:pointer;font-weight:700;color:#684936}.optional-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px}.auto-key{font-size:.78rem;color:#8a776a;margin-top:4px}.ing-admin-table{width:100%;border-collapse:collapse}.ing-admin-table th,.ing-admin-table td{padding:8px;border-bottom:1px solid #e5d4c2;vertical-align:top}.ing-admin-table .mini-actions{display:flex;gap:6px;flex-wrap:wrap}.brand-pill{display:inline-block;background:#efe0ce;color:#684936;padding:2px 7px;border-radius:999px;font-size:.75rem}.muted{color:#78685c;font-size:.82rem}
+dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));box-shadow:0 25px 80px #0005}dialog::backdrop{background:#0007}.dh{padding:17px;border-bottom:1px solid #e5d4c2;display:flex;justify-content:space-between;align-items:center}.dc{padding:18px;max-height:78vh;overflow:auto}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.full{grid-column:1/-1}.fg{display:flex;flex-direction:column;gap:5px}.ingredient-head{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin:6px 0 6px;color:#78685c;font-size:.78rem;font-weight:700}.ingredient-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin-bottom:8px}.nutrition-preview{grid-column:1/-1;background:#fbf6f0;border:1px solid #e5d4c2;border-radius:14px;padding:12px}.nutrition-preview-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:8px}.nutrition-preview-item{background:white;border-radius:10px;padding:8px;text-align:center;font-size:.78rem}.nutrition-preview-item b{display:block;font-size:1rem;color:#382b24}.recipe-helper{font-size:.8rem;color:#78685c;margin-top:4px}table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #e5d4c2;text-align:left}.serv{display:flex;gap:10px;align-items:center;margin:14px 0}.serv button{width:38px;height:38px;border-radius:50%;border:0;background:#684936;color:white}.source{font-size:.74rem;background:#f3e7db;color:#684936;padding:3px 6px;border-radius:999px}.status{font-size:.85rem;margin-top:8px}.section-note{font-size:.82rem;color:#78685c;margin-top:2px}.optional-box{grid-column:1/-1;border:1px solid #e5d4c2;border-radius:14px;background:#fbf6f0;padding:12px}.optional-box summary{cursor:pointer;font-weight:700;color:#684936}.optional-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px}.auto-key{font-size:.78rem;color:#8a776a;margin-top:4px}.ing-admin-table{width:100%;border-collapse:collapse}.ing-admin-table th,.ing-admin-table td{padding:8px;border-bottom:1px solid #e5d4c2;vertical-align:top}.ing-admin-table .mini-actions{display:flex;gap:6px;flex-wrap:wrap}.brand-pill{display:inline-block;background:#efe0ce;color:#684936;padding:2px 7px;border-radius:999px;font-size:.75rem}.muted{color:#78685c;font-size:.82rem}
 @media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.tools{grid-template-columns:1fr 1fr}}
-@media(max-width:620px){.grid{grid-template-columns:1fr}.tools{grid-template-columns:1fr}.macros{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.optional-box{grid-column:auto}.optional-grid{grid-template-columns:1fr}.ing-admin-table{font-size:.9rem}.ing-admin-table th:nth-child(2),.ing-admin-table td:nth-child(2){display:none}}
+@media(max-width:620px){.grid{grid-template-columns:1fr}.tools{grid-template-columns:1fr}.macros{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.optional-box{grid-column:auto}.optional-grid{grid-template-columns:1fr}.ing-admin-table{font-size:.9rem}.ing-admin-table th:nth-child(2),.ing-admin-table td:nth-child(2){display:none}.ingredient-head{display:none}.ingredient-row{grid-template-columns:1fr 1fr}.ingredient-row>div:first-child{grid-column:1/-1}.ingredient-row .btn.danger{width:100%}.nutrition-preview{grid-column:auto}.nutrition-preview-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -32,7 +32,16 @@ dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));
 
 <dialog id="loginDlg"><div class="dh"><strong>Acceso administrador</strong><button class="btn soft" onclick="loginDlg.close()">Cerrar</button></div><form class="dc" id="loginForm"><div class="formgrid"><div class="fg full"><label>Email</label><input id="loginEmail" type="email" required></div><div class="fg full"><label>Contraseña</label><input id="loginPassword" type="password" required></div><div class="fg full"><button class="btn" type="submit">Ingresar</button></div><div class="fg full" id="loginMsg"></div></div></form></dialog>
 <dialog id="viewDlg"><div class="dh"><strong id="viewTitle"></strong><button class="btn soft" onclick="viewDlg.close()">Cerrar</button></div><div class="dc" id="viewContent"></div></dialog>
-<dialog id="editDlg"><div class="dh"><strong id="editTitle">Nueva receta</strong><button class="btn soft" onclick="editDlg.close()">Cerrar</button></div><form class="dc" id="recipeForm"><input type="hidden" id="editId"><div class="formgrid"><div class="fg"><label>Nombre</label><input id="name" required></div><div class="fg"><label>Categoría</label><input id="category" required></div><div class="fg"><label>Porciones</label><input id="servings" type="number" min="1" value="1" required></div><div class="fg"><label>Tiempo total (min)</label><input id="time" type="number" min="1" value="20" required></div><div class="fg"><label>Ícono</label><input id="emoji" value="🥗"></div><div class="fg"><label>Ingredientes</label><button type="button" class="btn soft" id="addIngredient">+ Agregar ingrediente</button></div><div class="fg full"><div id="ingredientRows"></div></div><div class="fg full"><label>Preparación — un paso por línea</label><textarea id="steps" required></textarea></div><div class="fg full"><button class="btn" type="submit">Guardar receta</button></div></div></form></dialog>
+<dialog id="editDlg"><div class="dh"><strong id="editTitle">Nueva receta</strong><button class="btn soft" onclick="editDlg.close()">Cerrar</button></div><form class="dc" id="recipeForm"><input type="hidden" id="editId"><div class="formgrid"><div class="fg"><label>Nombre</label><input id="name" required></div><div class="fg"><label>Categoría</label><input id="category" list="categoryOptions" required placeholder="Ej.: Desayuno"><datalist id="categoryOptions"></datalist><div class="recipe-helper">Puedes elegir una categoría existente o escribir una nueva.</div></div><div class="fg"><label>Porciones</label><input id="servings" type="number" min="1" value="1" required></div><div class="fg"><label>Tiempo total (min)</label><input id="time" type="number" min="1" value="20" required></div><div class="fg"><label>Ícono</label><input id="emoji" value="🥗"></div><div class="fg"><label>Ingredientes</label><button type="button" class="btn soft" id="addIngredient">+ Agregar ingrediente</button><div class="recipe-helper">Las unidades disponibles dependen de las equivalencias configuradas para cada ingrediente.</div></div>
+<div class="fg full">
+  <div class="ingredient-head"><span>Ingrediente</span><span>Cantidad</span><span>Unidad</span><span></span></div>
+  <div id="ingredientRows"></div>
+</div>
+<div class="nutrition-preview">
+  <strong>Vista previa nutricional</strong>
+  <div class="recipe-helper">Se actualiza mientras editas la receta.</div>
+  <div class="nutrition-preview-grid" id="recipeNutritionPreview"></div>
+</div><div class="fg full"><label>Preparación — un paso por línea</label><textarea id="steps" required></textarea></div><div class="fg full"><button class="btn" type="submit">Guardar receta</button></div></div></form></dialog>
 
 
 <dialog id="ingredientsDlg">
@@ -172,7 +181,9 @@ const el = {
   ingredientTspWeight: document.getElementById("ingredientTspWeight"),
   ingredientTbspMl: document.getElementById("ingredientTbspMl"),
   ingredientTspMl: document.getElementById("ingredientTspMl"),
-  ingredientCupMl: document.getElementById("ingredientCupMl")
+  ingredientCupMl: document.getElementById("ingredientCupMl"),
+  categoryOptions: document.getElementById("categoryOptions"),
+  recipeNutritionPreview: document.getElementById("recipeNutritionPreview")
 };
 function round(n,d=1){return Math.round(n*10**d)/10**d}
 function validUnitsForIngredient(g){
@@ -217,6 +228,46 @@ function calcItem(i){
   return{kcal:g.kcal*f,protein:g.protein*f,carbs:g.carbs*f,fat:g.fat*f,fiber:g.fiber*f}
 }
 function calcRecipe(r){return r.items.map(calcItem).reduce((a,n)=>({kcal:a.kcal+n.kcal,protein:a.protein+n.protein,carbs:a.carbs+n.carbs,fat:a.fat+n.fat,fiber:a.fiber+n.fiber}),{kcal:0,protein:0,carbs:0,fat:0,fiber:0})}
+
+function refreshCategoryOptions(){
+  const defaults=["Desayuno","Almuerzo","Cena","Snack","Postres","Bebidas","Salsas","Panadería"];
+  const existing=RECIPES.map(r=>r.category).filter(Boolean);
+  const all=[...new Set([...defaults,...existing])].sort((a,b)=>a.localeCompare(b));
+  el.categoryOptions.innerHTML=all.map(c=>`<option value="${c}"></option>`).join("");
+}
+function currentDraftNutrition(){
+  const rows=[...document.querySelectorAll(".ingredient-row")];
+  const items=rows.map(row=>({
+    key:row.querySelector(".ing-key")?.value,
+    qty:+(row.querySelector(".ing-qty")?.value||0),
+    unit:row.querySelector(".ing-unit")?.value
+  })).filter(i=>i.key&&i.qty>0&&i.unit);
+  const totals=items.map(calcItem).reduce((a,n)=>({
+    kcal:a.kcal+n.kcal,
+    protein:a.protein+n.protein,
+    carbs:a.carbs+n.carbs,
+    fat:a.fat+n.fat,
+    fiber:a.fiber+n.fiber
+  }),{kcal:0,protein:0,carbs:0,fat:0,fiber:0});
+  const s=Math.max(1,+el.servings.value||1);
+  return {totals,per:Object.fromEntries(Object.entries(totals).map(([k,v])=>[k,v/s]))};
+}
+function updateRecipeNutritionPreview(){
+  if(!el.recipeNutritionPreview)return;
+  const {totals,per}=currentDraftNutrition();
+  const rows=[
+    ["kcal","kcal",0],
+    ["protein","proteína (g)",1],
+    ["carbs","carbohidratos (g)",1],
+    ["fat","grasas (g)",1],
+    ["fiber","fibra (g)",1]
+  ];
+  el.recipeNutritionPreview.innerHTML=rows.map(([k,label,d])=>`
+    <div class="nutrition-preview-item">
+      <b>${round(per[k],d)}</b>${label}
+      <div class="muted">Total: ${round(totals[k],d)}</div>
+    </div>`).join("");
+}
 function refreshCats(){const cur=cat.value,cs=[...new Set(RECIPES.map(r=>r.category))].sort();cat.innerHTML='<option value="">Todas las categorías</option>'+cs.map(c=>`<option>${c}</option>`).join("");cat.value=cs.includes(cur)?cur:""}
 function matches(r){const t=calcRecipe(r),p={kcal:t.kcal/r.servings,protein:t.protein/r.servings},s=q.value.trim().toLowerCase(),txt=(r.name+" "+r.items.map(i=>((ING[i.key]?.name||"")+" "+(ING[i.key]?.brand||""))).join(" ")).toLowerCase();let ok=!s||txt.includes(s);ok=ok&&(!cat.value||r.category===cat.value);if(flt.value==="low")ok=ok&&p.kcal<300;if(flt.value==="protein")ok=ok&&p.protein>=20;if(flt.value==="quick")ok=ok&&r.time_minutes<30;return ok}
 function render(){refreshCats();const list=RECIPES.filter(matches);document.getElementById("count").textContent=`${list.length} receta${list.length===1?"":"s"}`;grid.innerHTML=list.map(r=>{const t=calcRecipe(r),p=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v/r.servings]));return `<article class="card"><div class="visual">${r.emoji||"🥗"}</div><div class="body"><span class="tag">${r.category}</span><h2>${r.name}</h2><div class="meta">⏱ ${r.time_minutes} min · 🍽 ${r.servings} porciones</div><div class="macros"><div class="macro"><b>${round(p.kcal,0)}</b>kcal</div><div class="macro"><b>${round(p.protein)} g</b>prot.</div><div class="macro"><b>${round(p.carbs)} g</b>carb.</div><div class="macro"><b>${round(p.fat)} g</b>grasas</div><div class="macro"><b>${round(p.fiber)} g</b>fibra</div></div><div class="actions"><button class="btn" onclick="openRecipe(${r.id})">Ver</button>${isAdmin?`<button class="btn soft" onclick="editRecipe(${r.id})">Editar</button><button class="btn danger" onclick="deleteRecipe(${r.id})">Eliminar</button>`:""}</div></div></article>`}).join("")}
@@ -250,9 +301,13 @@ function addIngredientRow(item={key:Object.keys(ING)[0],qty:100,unit:null}){
   const keySelect=d.querySelector(".ing-key");
   const unitSelect=d.querySelector(".ing-unit");
   fillUnitSelect(unitSelect,keySelect.value,item.unit);
-  keySelect.addEventListener("change",()=>fillUnitSelect(unitSelect,keySelect.value,null));
-  d.querySelector("button").onclick=()=>d.remove();
-  el.ingredientRows.appendChild(d)
+  const qtyInput=d.querySelector(".ing-qty");
+  keySelect.addEventListener("change",()=>{fillUnitSelect(unitSelect,keySelect.value,null);updateRecipeNutritionPreview()});
+  unitSelect.addEventListener("change",updateRecipeNutritionPreview);
+  qtyInput.addEventListener("input",updateRecipeNutritionPreview);
+  d.querySelector("button").onclick=()=>{d.remove();updateRecipeNutritionPreview()};
+  el.ingredientRows.appendChild(d);
+  updateRecipeNutritionPreview()
 }
 function clearForm(){
   el.editId.value="";
@@ -264,8 +319,9 @@ function clearForm(){
   el.steps.value="";
   el.ingredientRows.innerHTML="";
   addIngredientRow();
+  updateRecipeNutritionPreview();
 }
-async function loadData(){const [a,b]=await Promise.all([sb.from("ingredients").select("*").order("name"),sb.from("recipes").select("*").order("id")]);if(a.error||b.error){el.count.textContent="Error al cargar";console.error(a.error||b.error);return}ING=Object.fromEntries(a.data.map(x=>[x.key,x]));RECIPES=b.data;render()}
+async function loadData(){const [a,b]=await Promise.all([sb.from("ingredients").select("*").order("name"),sb.from("recipes").select("*").order("id")]);if(a.error||b.error){el.count.textContent="Error al cargar";console.error(a.error||b.error);return}ING=Object.fromEntries(a.data.map(x=>[x.key,x]));RECIPES=b.data;refreshCategoryOptions();render()}
 async function refreshAuth(){const {data:{session}}=await sb.auth.getSession();isAdmin=!!session&&session.user.id===OWNER_UID;el.newBtn.classList.toggle("hidden",!isAdmin);el.ingredientsBtn.classList.toggle("hidden",!isAdmin);el.loginBtn.textContent=isAdmin?"Cerrar sesión":"Administrador";el.authStatus.textContent=isAdmin?"Sesión de administrador activa":"";render()}
 el.loginBtn.onclick=async()=>{if(isAdmin){await sb.auth.signOut();await refreshAuth()}else loginDlg.showModal()};
 el.loginForm.onsubmit=async e=>{e.preventDefault();el.loginMsg.textContent="Ingresando…";const {error}=await sb.auth.signInWithPassword({email:el.loginEmail.value,password:el.loginPassword.value});if(error){el.loginMsg.textContent=error.message;return}el.loginMsg.textContent="";loginDlg.close();await refreshAuth()};
@@ -284,6 +340,7 @@ function editRecipe(id){
   el.steps.value=r.steps.join("\n");
   el.ingredientRows.innerHTML="";
   r.items.forEach(addIngredientRow);
+  updateRecipeNutritionPreview();
   editDlg.showModal();
 }
 async function deleteRecipe(id){if(!isAdmin||!confirm("¿Eliminar esta receta?"))return;const {error}=await sb.from("recipes").delete().eq("id",id);if(error)alert(error.message);else await loadData()}
@@ -450,6 +507,7 @@ el.ingredientForm.onsubmit=async e=>{
   renderIngredientAdmin();
 };
 
+el.servings.addEventListener("input",updateRecipeNutritionPreview);
 [q,cat,flt].forEach(el=>el.addEventListener("input",render));
 sb.auth.onAuthStateChange(()=>refreshAuth());
 (async()=>{await loadData();await refreshAuth()})();
