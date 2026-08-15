@@ -40,6 +40,29 @@ const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let ING={},RECIPES=[],isAdmin=false;
 const q=document.getElementById("q"),cat=document.getElementById("cat"),flt=document.getElementById("flt"),grid=document.getElementById("grid");
 const loginDlg=document.getElementById("loginDlg"),viewDlg=document.getElementById("viewDlg"),editDlg=document.getElementById("editDlg");
+const el = {
+  count: document.getElementById("count"),
+  newBtn: document.getElementById("newBtn"),
+  loginBtn: document.getElementById("loginBtn"),
+  authStatus: document.getElementById("authStatus"),
+  loginForm: document.getElementById("loginForm"),
+  loginEmail: document.getElementById("loginEmail"),
+  loginPassword: document.getElementById("loginPassword"),
+  loginMsg: document.getElementById("loginMsg"),
+  editTitle: document.getElementById("editTitle"),
+  editId: document.getElementById("editId"),
+  name: document.getElementById("name"),
+  category: document.getElementById("category"),
+  servings: document.getElementById("servings"),
+  time: document.getElementById("time"),
+  emoji: document.getElementById("emoji"),
+  steps: document.getElementById("steps"),
+  ingredientRows: document.getElementById("ingredientRows"),
+  addIngredient: document.getElementById("addIngredient"),
+  recipeForm: document.getElementById("recipeForm"),
+  viewTitle: document.getElementById("viewTitle"),
+  viewContent: document.getElementById("viewContent")
+};
 function round(n,d=1){return Math.round(n*10**d)/10**d}
 function baseAmount(i){const g=ING[i.key];if(!g)return 0;if(i.unit==="g"||i.unit==="ml")return i.qty;if(i.unit==="un"&&g.unit_weight)return i.qty*g.unit_weight;if(i.unit==="pote"&&g.pack_weight)return i.qty*g.pack_weight;if(i.unit==="gotas"&&g.drops_per_ml)return i.qty/g.drops_per_ml;if(i.unit==="cda")return i.qty*(g.tbsp_weight||g.tbsp_ml||1);if(i.unit==="cdta")return i.qty*(g.tsp_weight||g.tsp_ml||1);if(i.unit==="taza")return i.qty*(g.cup_ml||1);return i.qty}
 function calcItem(i){const g=ING[i.key],f=baseAmount(i)/100;return{kcal:g.kcal*f,protein:g.protein*f,carbs:g.carbs*f,fat:g.fat*f,fiber:g.fiber*f}}
@@ -48,19 +71,75 @@ function refreshCats(){const cur=cat.value,cs=[...new Set(RECIPES.map(r=>r.categ
 function matches(r){const t=calcRecipe(r),p={kcal:t.kcal/r.servings,protein:t.protein/r.servings},s=q.value.trim().toLowerCase(),txt=(r.name+" "+r.items.map(i=>ING[i.key]?.name||"").join(" ")).toLowerCase();let ok=!s||txt.includes(s);ok=ok&&(!cat.value||r.category===cat.value);if(flt.value==="low")ok=ok&&p.kcal<300;if(flt.value==="protein")ok=ok&&p.protein>=20;if(flt.value==="quick")ok=ok&&r.time_minutes<30;return ok}
 function render(){refreshCats();const list=RECIPES.filter(matches);document.getElementById("count").textContent=`${list.length} receta${list.length===1?"":"s"}`;grid.innerHTML=list.map(r=>{const t=calcRecipe(r),p=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v/r.servings]));return `<article class="card"><div class="visual">${r.emoji||"🥗"}</div><div class="body"><span class="tag">${r.category}</span><h2>${r.name}</h2><div class="meta">⏱ ${r.time_minutes} min · 🍽 ${r.servings} porciones</div><div class="macros"><div class="macro"><b>${round(p.kcal,0)}</b>kcal</div><div class="macro"><b>${round(p.protein)} g</b>prot.</div><div class="macro"><b>${round(p.carbs)} g</b>carb.</div><div class="macro"><b>${round(p.fat)} g</b>grasas</div><div class="macro"><b>${round(p.fiber)} g</b>fibra</div></div><div class="actions"><button class="btn" onclick="openRecipe(${r.id})">Ver</button>${isAdmin?`<button class="btn soft" onclick="editRecipe(${r.id})">Editar</button><button class="btn danger" onclick="deleteRecipe(${r.id})">Eliminar</button>`:""}</div></div></article>`}).join("")}
 function displayItem(i,f){const g=ING[i.key],n=round(i.qty*f,2);if(i.unit==="un"){let pl=g.name;if(g.name==="Huevo entero")pl="Huevos enteros";else if(g.name==="Clara de huevo")pl="Claras de huevo";if(Number.isInteger(n))return `${n} ${n===1?g.name.toLowerCase():pl.toLowerCase()}`;const gr=g.unit_weight?round(n*g.unit_weight,0):null;return gr?`${n} ${pl.toLowerCase()} (aprox. ${gr} g)`:`${n} ${pl.toLowerCase()}`}return `${n} ${i.unit} de ${g.name.toLowerCase()}`}
-function openRecipe(id){const r=RECIPES.find(x=>x.id===id);let serv=r.servings;function draw(){const f=serv/r.servings,t=calcRecipe(r),adj=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v*f])),per=Object.fromEntries(Object.entries(adj).map(([k,v])=>[k,v/serv]));viewTitle.textContent=r.name;viewContent.innerHTML=`<span class="tag">${r.category}</span><div class="serv"><strong>Porciones:</strong><button id="minus">−</button><strong>${serv}</strong><button id="plus">+</button></div><h3>Información nutricional</h3><table><tr><th></th><th>Receta ajustada</th><th>Por porción</th></tr>${[["kcal","Calorías"," kcal"],["protein","Proteínas"," g"],["carbs","Carbohidratos"," g"],["fat","Grasas"," g"],["fiber","Fibra"," g"]].map(x=>`<tr><td>${x[1]}</td><td>${round(adj[x[0]])}${x[2]}</td><td>${round(per[x[0]])}${x[2]}</td></tr>`).join("")}</table><h3>Ingredientes</h3><ul>${r.items.map(i=>`<li>${displayItem(i,f)} <span class="source">${ING[i.key].source}</span></li>`).join("")}</ul><h3>Preparación</h3><ol>${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol>`;minus.onclick=()=>{if(serv>1){serv--;draw()}};plus.onclick=()=>{serv++;draw()}}draw();viewDlg.showModal()}
+function openRecipe(id){const r=RECIPES.find(x=>x.id===id);let serv=r.servings;function draw(){const f=serv/r.servings,t=calcRecipe(r),adj=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v*f])),per=Object.fromEntries(Object.entries(adj).map(([k,v])=>[k,v/serv]));el.viewTitle.textContent=r.name;el.viewContent.innerHTML=`<span class="tag">${r.category}</span><div class="serv"><strong>Porciones:</strong><button id="minus">−</button><strong>${serv}</strong><button id="plus">+</button></div><h3>Información nutricional</h3><table><tr><th></th><th>Receta ajustada</th><th>Por porción</th></tr>${[["kcal","Calorías"," kcal"],["protein","Proteínas"," g"],["carbs","Carbohidratos"," g"],["fat","Grasas"," g"],["fiber","Fibra"," g"]].map(x=>`<tr><td>${x[1]}</td><td>${round(adj[x[0]])}${x[2]}</td><td>${round(per[x[0]])}${x[2]}</td></tr>`).join("")}</table><h3>Ingredientes</h3><ul>${r.items.map(i=>`<li>${displayItem(i,f)} <span class="source">${ING[i.key].source}</span></li>`).join("")}</ul><h3>Preparación</h3><ol>${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol>`;minus.onclick=()=>{if(serv>1){serv--;draw()}};plus.onclick=()=>{serv++;draw()}}draw();viewDlg.showModal()}
 function ingredientSelect(selected=""){return `<select class="ing-key">${Object.entries(ING).sort((a,b)=>a[1].name.localeCompare(b[1].name)).map(([k,v])=>`<option value="${k}" ${k===selected?"selected":""}>${v.name}</option>`).join("")}</select>`}
-function addIngredientRow(item={key:Object.keys(ING)[0],qty:100,unit:"g"}){const d=document.createElement("div");d.className="ingredient-row";d.innerHTML=`<div>${ingredientSelect(item.key)}</div><div><input class="ing-qty" type="number" step="0.01" min="0" value="${item.qty}" required></div><div><select class="ing-unit">${["g","ml","un","pote","gotas","cda","cdta","taza"].map(u=>`<option ${u===item.unit?"selected":""}>${u}</option>`).join("")}</select></div><button type="button" class="btn danger">×</button>`;d.querySelector("button").onclick=()=>d.remove();ingredientRows.appendChild(d)}
-function clearForm(){editId.value="";name.value="";category.value="";servings.value=1;time.value=20;emoji.value="🥗";steps.value="";ingredientRows.innerHTML="";addIngredientRow()}
-async function loadData(){const [a,b]=await Promise.all([sb.from("ingredients").select("*").order("name"),sb.from("recipes").select("*").order("id")]);if(a.error||b.error){count.textContent="Error al cargar";console.error(a.error||b.error);return}ING=Object.fromEntries(a.data.map(x=>[x.key,x]));RECIPES=b.data;render()}
-async function refreshAuth(){const {data:{session}}=await sb.auth.getSession();isAdmin=!!session&&session.user.id===OWNER_UID;newBtn.classList.toggle("hidden",!isAdmin);loginBtn.textContent=isAdmin?"Cerrar sesión":"Administrador";authStatus.textContent=isAdmin?"Sesión de administrador activa":"";render()}
-loginBtn.onclick=async()=>{if(isAdmin){await sb.auth.signOut();await refreshAuth()}else loginDlg.showModal()};
-loginForm.onsubmit=async e=>{e.preventDefault();loginMsg.textContent="Ingresando…";const {error}=await sb.auth.signInWithPassword({email:loginEmail.value,password:loginPassword.value});if(error){loginMsg.textContent=error.message;return}loginMsg.textContent="";loginDlg.close();await refreshAuth()};
-newBtn.onclick=()=>{clearForm();editTitle.textContent="Nueva receta";editDlg.showModal()};
-addIngredient.onclick=()=>addIngredientRow();
-function editRecipe(id){if(!isAdmin)return;const r=RECIPES.find(x=>x.id===id);editTitle.textContent="Editar receta";editId.value=r.id;name.value=r.name;category.value=r.category;servings.value=r.servings;time.value=r.time_minutes;emoji.value=r.emoji||"🥗";steps.value=r.steps.join("\n");ingredientRows.innerHTML="";r.items.forEach(addIngredientRow);editDlg.showModal()}
+function addIngredientRow(item={key:Object.keys(ING)[0],qty:100,unit:"g"}){const d=document.createElement("div");d.className="ingredient-row";d.innerHTML=`<div>${ingredientSelect(item.key)}</div><div><input class="ing-qty" type="number" step="0.01" min="0" value="${item.qty}" required></div><div><select class="ing-unit">${["g","ml","un","pote","gotas","cda","cdta","taza"].map(u=>`<option ${u===item.unit?"selected":""}>${u}</option>`).join("")}</select></div><button type="button" class="btn danger">×</button>`;d.querySelector("button").onclick=()=>d.remove();el.ingredientRows.appendChild(d)}
+function clearForm(){
+  el.editId.value="";
+  el.name.value="";
+  el.category.value="";
+  el.servings.value=1;
+  el.time.value=20;
+  el.emoji.value="🥗";
+  el.steps.value="";
+  el.ingredientRows.innerHTML="";
+  addIngredientRow();
+}
+async function loadData(){const [a,b]=await Promise.all([sb.from("ingredients").select("*").order("name"),sb.from("recipes").select("*").order("id")]);if(a.error||b.error){el.count.textContent="Error al cargar";console.error(a.error||b.error);return}ING=Object.fromEntries(a.data.map(x=>[x.key,x]));RECIPES=b.data;render()}
+async function refreshAuth(){const {data:{session}}=await sb.auth.getSession();isAdmin=!!session&&session.user.id===OWNER_UID;el.newBtn.classList.toggle("hidden",!isAdmin);el.loginBtn.textContent=isAdmin?"Cerrar sesión":"Administrador";el.authStatus.textContent=isAdmin?"Sesión de administrador activa":"";render()}
+el.loginBtn.onclick=async()=>{if(isAdmin){await sb.auth.signOut();await refreshAuth()}else loginDlg.showModal()};
+el.loginForm.onsubmit=async e=>{e.preventDefault();el.loginMsg.textContent="Ingresando…";const {error}=await sb.auth.signInWithPassword({email:el.loginEmail.value,password:el.loginPassword.value});if(error){el.loginMsg.textContent=error.message;return}el.loginMsg.textContent="";loginDlg.close();await refreshAuth()};
+el.newBtn.onclick=()=>{clearForm();el.editTitle.textContent="Nueva receta";editDlg.showModal()};
+el.addIngredient.onclick=()=>addIngredientRow();
+function editRecipe(id){
+  if(!isAdmin)return;
+  const r=RECIPES.find(x=>x.id===id);
+  el.editTitle.textContent="Editar receta";
+  el.editId.value=r.id;
+  el.name.value=r.name;
+  el.category.value=r.category;
+  el.servings.value=r.servings;
+  el.time.value=r.time_minutes;
+  el.emoji.value=r.emoji||"🥗";
+  el.steps.value=r.steps.join("\n");
+  el.ingredientRows.innerHTML="";
+  r.items.forEach(addIngredientRow);
+  editDlg.showModal();
+}
 async function deleteRecipe(id){if(!isAdmin||!confirm("¿Eliminar esta receta?"))return;const {error}=await sb.from("recipes").delete().eq("id",id);if(error)alert(error.message);else await loadData()}
-recipeForm.onsubmit=async e=>{e.preventDefault();if(!isAdmin)return;const rows=[...document.querySelectorAll(".ingredient-row")],items=rows.map(row=>({key:row.querySelector(".ing-key").value,qty:+row.querySelector(".ing-qty").value,unit:row.querySelector(".ing-unit").value})).filter(i=>i.qty>0),obj={name:name.value.trim(),category:category.value.trim(),servings:+servings.value,time_minutes:+time.value,emoji:emoji.value.trim()||"🥗",items,steps:steps.value.split("\n").map(x=>x.trim()).filter(Boolean)};let error;if(editId.value)({error}=await sb.from("recipes").update(obj).eq("id",+editId.value));else({error}=await sb.from("recipes").insert(obj));if(error){alert(error.message);return}editDlg.close();await loadData()};
+el.recipeForm.onsubmit=async e=>{
+  e.preventDefault();
+  if(!isAdmin)return;
+  const rows=[...document.querySelectorAll(".ingredient-row")];
+  const items=rows.map(row=>({
+    key:row.querySelector(".ing-key").value,
+    qty:+row.querySelector(".ing-qty").value,
+    unit:row.querySelector(".ing-unit").value
+  })).filter(i=>i.qty>0);
+
+  const obj={
+    name:el.name.value.trim(),
+    category:el.category.value.trim(),
+    servings:+el.servings.value,
+    time_minutes:+el.time.value,
+    emoji:el.emoji.value.trim()||"🥗",
+    items,
+    steps:el.steps.value.split("\n").map(x=>x.trim()).filter(Boolean)
+  };
+
+  let error;
+  if(el.editId.value){
+    ({error}=await sb.from("recipes").update(obj).eq("id",+el.editId.value));
+  }else{
+    ({error}=await sb.from("recipes").insert(obj));
+  }
+  if(error){
+    alert(error.message);
+    return;
+  }
+  editDlg.close();
+  await loadData();
+};
 [q,cat,flt].forEach(el=>el.addEventListener("input",render));
 sb.auth.onAuthStateChange(()=>refreshAuth());
 (async()=>{await loadData();await refreshAuth()})();
