@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mi Recetario Fit</title>
-<meta name="app-version" content="ficha-receta-v3">
+<meta name="app-version" content="fotos-recetas-v4">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;background:#f7f0e7;color:#382b24}
@@ -14,6 +14,9 @@ input,select,textarea,button{font:inherit}input,select,textarea{padding:11px;bor
 .btn{border:0;border-radius:12px;padding:11px 14px;background:#684936;color:white;font-weight:700;cursor:pointer}.light{background:white;color:#684936}.soft{background:#efe0ce;color:#684936}.danger{background:#8b2f2f}.hidden{display:none!important}
 main{padding:22px 18px 55px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fffdf9;border:1px solid #e5d4c2;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(67,45,31,.1)}.visual{height:140px;display:grid;place-items:center;font-size:4rem;background:linear-gradient(135deg,#ead7c1,#d4b79a)}.body{padding:16px}.tag{display:inline-block;background:#efe0ce;color:#684936;padding:5px 9px;border-radius:999px;font-size:.8rem;font-weight:700}.meta{color:#78685c;font-size:.9rem}.macros{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:13px 0}.macro{background:#faf4ed;border-radius:9px;padding:7px 4px;text-align:center;font-size:.68rem;color:#78685c}.macro b{display:block;color:#382b24}.actions{display:flex;gap:7px}.actions button{flex:1}
 dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));box-shadow:0 25px 80px #0005}dialog::backdrop{background:#0007}.dh{padding:17px;border-bottom:1px solid #e5d4c2;display:flex;justify-content:space-between;align-items:center}.dc{padding:18px;max-height:78vh;overflow:auto}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.full{grid-column:1/-1}.fg{display:flex;flex-direction:column;gap:5px}.ingredient-head{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin:6px 0 6px;color:#78685c;font-size:.78rem;font-weight:700}.ingredient-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin-bottom:8px}.nutrition-preview{grid-column:1/-1;background:#fbf6f0;border:1px solid #e5d4c2;border-radius:14px;padding:12px}.nutrition-preview-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:8px}.nutrition-preview-item{background:white;border-radius:10px;padding:8px;text-align:center;font-size:.78rem}.nutrition-preview-item b{display:block;font-size:1rem;color:#382b24}.recipe-helper{font-size:.8rem;color:#78685c;margin-top:4px}table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #e5d4c2;text-align:left}.serv{display:flex;gap:10px;align-items:center;margin:14px 0}.serv button{width:38px;height:38px;border-radius:50%;border:0;background:#684936;color:white}.source{font-size:.74rem;background:#f3e7db;color:#684936;padding:3px 6px;border-radius:999px}.status{font-size:.85rem;margin-top:8px}.section-note{font-size:.82rem;color:#78685c;margin-top:2px}.optional-box{grid-column:1/-1;border:1px solid #e5d4c2;border-radius:14px;background:#fbf6f0;padding:12px}.optional-box summary{cursor:pointer;font-weight:700;color:#684936}.optional-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px}.auto-key{font-size:.78rem;color:#8a776a;margin-top:4px}.ing-admin-table{width:100%;border-collapse:collapse}.ing-admin-table th,.ing-admin-table td{padding:8px;border-bottom:1px solid #e5d4c2;vertical-align:top}.ing-admin-table .mini-actions{display:flex;gap:6px;flex-wrap:wrap}.brand-pill{display:inline-block;background:#efe0ce;color:#684936;padding:2px 7px;border-radius:999px;font-size:.75rem}.muted{color:#78685c;font-size:.82rem}
+.visual.has-photo{background:#e8ded3;padding:0;overflow:hidden}
+.visual.has-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.recipe-photo-hero{width:100%;height:260px;object-fit:cover;border-radius:16px;display:block;margin-bottom:15px;background:#ead7c1}
 .recipe-view-head{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start;margin-bottom:14px}
 .recipe-view-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .recipe-view-chip{background:#faf4ed;border:1px solid #eadaca;border-radius:999px;padding:6px 10px;font-size:.82rem;color:#684936}
@@ -21,7 +24,7 @@ dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));
 .recipe-macro-card{background:#fbf6f0;border:1px solid #eadaca;border-radius:14px;padding:12px;text-align:center}
 .recipe-macro-card .value{font-size:1.2rem;font-weight:800;color:#382b24;line-height:1.1}
 .recipe-macro-card .label{font-size:.72rem;color:#78685c;margin-top:4px}
-.recipe-total-note{font-size:.72rem;color:#8a776a;margin-top:4px}
+.recipe-total-note{font-size:.68rem;color:#9a8a7e;margin-top:4px}
 .recipe-section{margin-top:20px}
 .recipe-section h3{margin:0 0 9px}
 .recipe-ingredients{display:grid;gap:8px;padding:0;margin:0;list-style:none}
@@ -30,8 +33,14 @@ dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));
 .recipe-steps li{margin-bottom:10px;line-height:1.45}
 .recipe-serv-control{display:flex;gap:9px;align-items:center}
 .recipe-serv-control button{width:36px;height:36px;border-radius:50%;border:0;background:#684936;color:white;font-weight:700;cursor:pointer}
+.photo-box{grid-column:1/-1;border:1px solid #e5d4c2;border-radius:14px;background:#fbf6f0;padding:12px}
+.photo-preview{margin-top:10px;display:none}
+.photo-preview.visible{display:block}
+.photo-preview img{width:100%;max-height:260px;object-fit:cover;border-radius:12px;border:1px solid #e5d4c2}
+.photo-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.photo-actions label{display:flex;gap:6px;align-items:center;font-size:.82rem;color:#78685c}
 @media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.tools{grid-template-columns:1fr 1fr}}
-@media(max-width:620px){.recipe-macro-grid{grid-template-columns:repeat(2,1fr)}.recipe-view-head{grid-template-columns:1fr}.recipe-view-meta{gap:6px}.grid{grid-template-columns:1fr}.tools{grid-template-columns:1fr}.macros{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.optional-box{grid-column:auto}.optional-grid{grid-template-columns:1fr}.ing-admin-table{font-size:.9rem}.ing-admin-table th:nth-child(2),.ing-admin-table td:nth-child(2){display:none}.ingredient-head{display:none}.ingredient-row{grid-template-columns:1fr 1fr}.ingredient-row>div:first-child{grid-column:1/-1}.ingredient-row .btn.danger{width:100%}.nutrition-preview{grid-column:auto}.nutrition-preview-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.recipe-macro-grid{grid-template-columns:repeat(2,1fr)}.recipe-view-head{grid-template-columns:1fr}.recipe-photo-hero{height:210px}.grid{grid-template-columns:1fr}.tools{grid-template-columns:1fr}.macros{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.optional-box{grid-column:auto}.optional-grid{grid-template-columns:1fr}.ing-admin-table{font-size:.9rem}.ing-admin-table th:nth-child(2),.ing-admin-table td:nth-child(2){display:none}.ingredient-head{display:none}.ingredient-row{grid-template-columns:1fr 1fr}.ingredient-row>div:first-child{grid-column:1/-1}.ingredient-row .btn.danger{width:100%}.nutrition-preview{grid-column:auto}.nutrition-preview-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
@@ -53,6 +62,17 @@ dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));
   <div class="ingredient-head"><span>Ingrediente</span><span>Cantidad</span><span>Unidad</span><span></span></div>
   <div id="ingredientRows"></div>
 </div>
+
+<div class="photo-box">
+  <strong>Fotografía de la receta</strong>
+  <div class="recipe-helper">Puedes cargar una foto desde tu PC o celular. JPG, PNG o WEBP.</div>
+  <input id="recipeImageFile" type="file" accept="image/jpeg,image/png,image/webp" style="margin-top:9px">
+  <div class="photo-preview" id="recipeImagePreview"><img id="recipeImagePreviewImg" alt="Vista previa de la receta"></div>
+  <div class="photo-actions">
+    <label><input id="recipeRemoveImage" type="checkbox"> Quitar la foto actual</label>
+  </div>
+</div>
+
 <div class="nutrition-preview">
   <strong>Vista previa nutricional</strong>
   <div class="recipe-helper">Se actualiza mientras editas la receta.</div>
@@ -115,9 +135,11 @@ dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));
       <div class="fg full">
         <strong>Información nutricional por 100 g / 100 ml</strong>
       </div>
+      <div class="fg full"><div class="section-note"><strong>Importante:</strong> las calorías siempre se calculan con las kcal declaradas del ingrediente. “Carbohidratos computables” solo modifica el macro de carbohidratos mostrado en las recetas; no altera calorías, proteínas, grasas ni fibra.</div></div>
       <div class="fg"><label>Calorías (kcal)</label><input id="ingredientKcal" type="number" min="0" step="0.01" required></div>
       <div class="fg"><label>Proteínas (g)</label><input id="ingredientProtein" type="number" min="0" step="0.01" required></div>
-      <div class="fg"><label>Carbohidratos (g)</label><input id="ingredientCarbs" type="number" min="0" step="0.01" required></div>
+      <div class="fg"><label>Carbohidratos de etiqueta (g)</label><input id="ingredientCarbs" type="number" min="0" step="0.01" required><div class="section-note">Dato original por 100 g / 100 ml.</div></div>
+      <div class="fg"><label>Carbohidratos computables (g)</label><input id="ingredientCarbsCounted" type="number" min="0" step="0.01" placeholder="Si lo dejas vacío, usa el valor de etiqueta"><div class="section-note">Valor que se sumará a los macros de las recetas. Úsalo solo cuando corresponda ajustar un ingrediente especial.</div></div>
       <div class="fg"><label>Grasas (g)</label><input id="ingredientFat" type="number" min="0" step="0.01" required></div>
       <div class="fg"><label>Fibra (g)</label><input id="ingredientFiber" type="number" min="0" step="0.01" required></div>
 
@@ -187,6 +209,7 @@ const el = {
   ingredientKcal: document.getElementById("ingredientKcal"),
   ingredientProtein: document.getElementById("ingredientProtein"),
   ingredientCarbs: document.getElementById("ingredientCarbs"),
+  ingredientCarbsCounted: document.getElementById("ingredientCarbsCounted"),
   ingredientFat: document.getElementById("ingredientFat"),
   ingredientFiber: document.getElementById("ingredientFiber"),
   ingredientSource: document.getElementById("ingredientSource"),
@@ -199,9 +222,37 @@ const el = {
   ingredientTspMl: document.getElementById("ingredientTspMl"),
   ingredientCupMl: document.getElementById("ingredientCupMl"),
   categoryOptions: document.getElementById("categoryOptions"),
-  recipeNutritionPreview: document.getElementById("recipeNutritionPreview")
+  recipeNutritionPreview: document.getElementById("recipeNutritionPreview"),
+  recipeImageFile: document.getElementById("recipeImageFile"),
+  recipeImagePreview: document.getElementById("recipeImagePreview"),
+  recipeImagePreviewImg: document.getElementById("recipeImagePreviewImg"),
+  recipeRemoveImage: document.getElementById("recipeRemoveImage")
 };
 function round(n,d=1){return Math.round(n*10**d)/10**d}
+function safeFileName(name){
+  return String(name||"foto").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9._-]+/g,"_");
+}
+function setRecipePhotoPreview(url=""){
+  if(url){
+    el.recipeImagePreviewImg.src=url;
+    el.recipeImagePreview.classList.add("visible");
+  }else{
+    el.recipeImagePreviewImg.removeAttribute("src");
+    el.recipeImagePreview.classList.remove("visible");
+  }
+}
+async function uploadRecipeImage(file){
+  if(!file)return null;
+  const max=8*1024*1024;
+  if(file.size>max)throw new Error("La imagen supera 8 MB. Reduce su tamaño antes de subirla.");
+  const ext=(file.name.split(".").pop()||"jpg").toLowerCase();
+  const path=`${OWNER_UID}/${Date.now()}_${Math.random().toString(36).slice(2,8)}_${safeFileName(file.name.replace(/\.[^.]+$/,""))}.${ext}`;
+  const {error}=await sb.storage.from("recipe-images").upload(path,file,{cacheControl:"3600",upsert:false,contentType:file.type||undefined});
+  if(error)throw error;
+  const {data}=sb.storage.from("recipe-images").getPublicUrl(path);
+  return data.publicUrl;
+}
+
 function validUnitsForIngredient(g){
   if(!g)return [];
   const units=[];
@@ -241,7 +292,8 @@ function calcItem(i){
   const g=ING[i.key],base=baseAmount(i);
   if(!g||base===null)return{kcal:0,protein:0,carbs:0,fat:0,fiber:0};
   const f=base/100;
-  return{kcal:g.kcal*f,protein:g.protein*f,carbs:g.carbs*f,fat:g.fat*f,fiber:g.fiber*f}
+  const carbsForRecipe=(g.carbs_counted===null||g.carbs_counted===undefined||g.carbs_counted==="")?Number(g.carbs):Number(g.carbs_counted);
+  return{kcal:g.kcal*f,protein:g.protein*f,carbs:carbsForRecipe*f,fat:g.fat*f,fiber:g.fiber*f}
 }
 function calcRecipe(r){return r.items.map(calcItem).reduce((a,n)=>({kcal:a.kcal+n.kcal,protein:a.protein+n.protein,carbs:a.carbs+n.carbs,fat:a.fat+n.fat,fiber:a.fiber+n.fiber}),{kcal:0,protein:0,carbs:0,fat:0,fiber:0})}
 
@@ -286,7 +338,30 @@ function updateRecipeNutritionPreview(){
 }
 function refreshCats(){const cur=cat.value,cs=[...new Set(RECIPES.map(r=>r.category))].sort();cat.innerHTML='<option value="">Todas las categorías</option>'+cs.map(c=>`<option>${c}</option>`).join("");cat.value=cs.includes(cur)?cur:""}
 function matches(r){const t=calcRecipe(r),p={kcal:t.kcal/r.servings,protein:t.protein/r.servings},s=q.value.trim().toLowerCase(),txt=(r.name+" "+r.items.map(i=>((ING[i.key]?.name||"")+" "+(ING[i.key]?.brand||""))).join(" ")).toLowerCase();let ok=!s||txt.includes(s);ok=ok&&(!cat.value||r.category===cat.value);if(flt.value==="low")ok=ok&&p.kcal<300;if(flt.value==="protein")ok=ok&&p.protein>=20;if(flt.value==="quick")ok=ok&&r.time_minutes<30;return ok}
-function render(){refreshCats();const list=RECIPES.filter(matches);document.getElementById("count").textContent=`${list.length} receta${list.length===1?"":"s"}`;grid.innerHTML=list.map(r=>{const t=calcRecipe(r),p=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v/r.servings]));return `<article class="card"><div class="visual">${r.emoji||"🥗"}</div><div class="body"><span class="tag">${r.category}</span><h2>${r.name}</h2><div class="meta">⏱ ${r.time_minutes} min · 🍽 ${r.servings} porciones</div><div class="macros"><div class="macro"><b>${round(p.kcal,0)}</b>kcal</div><div class="macro"><b>${round(p.protein)} g</b>prot.</div><div class="macro"><b>${round(p.carbs)} g</b>carb.</div><div class="macro"><b>${round(p.fat)} g</b>grasas</div><div class="macro"><b>${round(p.fiber)} g</b>fibra</div></div><div class="actions"><button class="btn" onclick="openRecipe(${r.id})">Ver</button>${isAdmin?`<button class="btn soft" onclick="editRecipe(${r.id})">Editar</button><button class="btn danger" onclick="deleteRecipe(${r.id})">Eliminar</button>`:""}</div></div></article>`}).join("")}
+function render(){
+  refreshCats();
+  const list=RECIPES.filter(matches);
+  document.getElementById("count").textContent=`${list.length} receta${list.length===1?"":"s"}`;
+  grid.innerHTML=list.map(r=>{
+    const t=calcRecipe(r),p=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v/r.servings]));
+    const visual=r.image_url
+      ? `<div class="visual has-photo"><img src="${r.image_url}" alt="${r.name}" loading="lazy"></div>`
+      : `<div class="visual">${r.emoji||"🥗"}</div>`;
+    return `<article class="card">${visual}<div class="body">
+      <span class="tag">${r.category}</span>
+      <h2>${r.name}</h2>
+      <div class="meta">⏱ ${r.time_minutes} min · 🍽 ${r.servings} porciones</div>
+      <div class="macros">
+        <div class="macro"><b>${round(p.kcal,0)}</b>kcal</div>
+        <div class="macro"><b>${round(p.protein)} g</b>prot.</div>
+        <div class="macro"><b>${round(p.carbs)} g</b>carb.</div>
+        <div class="macro"><b>${round(p.fat)} g</b>grasas</div>
+        <div class="macro"><b>${round(p.fiber)} g</b>fibra</div>
+      </div>
+      <div class="actions"><button class="btn" onclick="openRecipe(${r.id})">Ver</button>${isAdmin?`<button class="btn soft" onclick="editRecipe(${r.id})">Editar</button><button class="btn danger" onclick="deleteRecipe(${r.id})">Eliminar</button>`:""}</div>
+    </div></article>`
+  }).join("")
+}
 function displayItem(i,f){const g=ING[i.key],n=round(i.qty*f,2);if(i.unit==="un"){let pl=g.name;if(g.name==="Huevo entero")pl="Huevos enteros";else if(g.name==="Clara de huevo")pl="Claras de huevo";if(Number.isInteger(n))return `${n} ${n===1?g.name.toLowerCase():pl.toLowerCase()}`;const gr=g.unit_weight?round(n*g.unit_weight,0):null;return gr?`${n} ${pl.toLowerCase()} (aprox. ${gr} g)`:`${n} ${pl.toLowerCase()}`}return `${n} ${i.unit} de ${g.name.toLowerCase()}`}
 function openRecipe(id){
   const r=RECIPES.find(x=>x.id===id);
@@ -296,15 +371,13 @@ function openRecipe(id){
     const t=calcRecipe(r);
     const adj=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v*f]));
     const per=Object.fromEntries(Object.entries(adj).map(([k,v])=>[k,v/serv]));
-
     el.viewTitle.textContent=r.name;
     el.viewContent.innerHTML=`
+      ${r.image_url?`<img class="recipe-photo-hero" src="${r.image_url}" alt="${r.name}">`:""}
       <div class="recipe-view-head">
-        <div>
-          <div class="recipe-view-meta">
-            <span class="tag">${r.category}</span>
-            <span class="recipe-view-chip">⏱ ${r.time_minutes} min</span>
-          </div>
+        <div class="recipe-view-meta">
+          <span class="tag">${r.category}</span>
+          <span class="recipe-view-chip">⏱ ${r.time_minutes} min</span>
         </div>
         <div class="recipe-serv-control">
           <strong>Porciones</strong>
@@ -317,15 +390,15 @@ function openRecipe(id){
       <div class="recipe-macro-grid">
         ${[
           ["kcal","kcal",0],
-          ["protein","proteína",1],
-          ["carbs","carb. comp.",1],
-          ["fat","grasas",1],
-          ["fiber","fibra",1]
+          ["protein","Proteína",1],
+          ["carbs","Carbohidratos",1],
+          ["fat","Grasas",1],
+          ["fiber","Fibra",1]
         ].map(([k,label,d])=>`
           <div class="recipe-macro-card">
             <div class="value">${round(per[k],d)}${k==="kcal"?"":" g"}</div>
             <div class="label">${label} / porción</div>
-            <div class="recipe-total-note">Total receta: ${round(adj[k],d)}${k==="kcal"?" kcal":" g"}</div>
+            <div class="recipe-total-note">Total: ${round(adj[k],d)}${k==="kcal"?" kcal":" g"}</div>
           </div>
         `).join("")}
       </div>
@@ -334,20 +407,17 @@ function openRecipe(id){
         <h3>Ingredientes</h3>
         <ul class="recipe-ingredients">
           ${r.items.map(i=>`
-            <li>
-              ${displayItem(i,f)}
+            <li>${displayItem(i,f)}
               ${ING[i.key].brand?` <span class="brand-pill">${ING[i.key].brand}</span>`:""}
               <span class="source">${ING[i.key].source}</span>
-            </li>
-          `).join("")}
+            </li>`).join("")}
         </ul>
       </div>
 
       <div class="recipe-section">
         <h3>Preparación</h3>
         <ol class="recipe-steps">${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol>
-      </div>
-    `;
+      </div>`;
     minus.onclick=()=>{if(serv>1){serv--;draw()}};
     plus.onclick=()=>{serv++;draw()};
   }
@@ -398,6 +468,10 @@ function clearForm(){
   el.time.value=20;
   el.emoji.value="🥗";
   el.steps.value="";
+  el.recipeImageFile.value="";
+  el.recipeRemoveImage.checked=false;
+  el.recipeImagePreview.dataset.currentUrl="";
+  setRecipePhotoPreview("");
   el.ingredientRows.innerHTML="";
   addIngredientRow();
   updateRecipeNutritionPreview();
@@ -419,6 +493,10 @@ function editRecipe(id){
   el.time.value=r.time_minutes;
   el.emoji.value=r.emoji||"🥗";
   el.steps.value=r.steps.join("\n");
+  el.recipeImageFile.value="";
+  el.recipeRemoveImage.checked=false;
+  el.recipeImagePreview.dataset.currentUrl=r.image_url||"";
+  setRecipePhotoPreview(r.image_url||"");
   el.ingredientRows.innerHTML="";
   r.items.forEach(addIngredientRow);
   updateRecipeNutritionPreview();
@@ -443,12 +521,25 @@ el.recipeForm.onsubmit=async e=>{
     }
   }
 
+  let imageUrl=el.recipeImagePreview.dataset.currentUrl||null;
+  if(el.recipeRemoveImage.checked)imageUrl=null;
+  const newImage=el.recipeImageFile.files?.[0];
+  if(newImage){
+    try{
+      imageUrl=await uploadRecipeImage(newImage);
+    }catch(err){
+      alert("No fue posible subir la fotografía: "+(err?.message||err));
+      return;
+    }
+  }
+
   const obj={
     name:el.name.value.trim(),
     category:el.category.value.trim(),
     servings:+el.servings.value,
     time_minutes:+el.time.value,
     emoji:el.emoji.value.trim()||"🥗",
+    image_url:imageUrl,
     items,
     steps:el.steps.value.split("\n").map(x=>x.trim()).filter(Boolean)
   };
@@ -480,7 +571,7 @@ function renderIngredientAdmin(){
     <tr><th>Ingrediente</th><th>Nutrición / 100</th><th>Fuente</th><th></th></tr>
     ${rows.map(g=>`<tr>
       <td><strong>${g.name}</strong>${g.brand?`<br><span class="brand-pill">${g.brand}</span>`:""}<br><span class="muted">${g.key}</span></td>
-      <td>${round(g.kcal)} kcal · P ${round(g.protein)} · C ${round(g.carbs)} · G ${round(g.fat)} · F ${round(g.fiber)}</td>
+      <td>${round(g.kcal)} kcal · P ${round(g.protein)} · C etiqueta ${round(g.carbs)} · C comp. ${round((g.carbs_counted===null||g.carbs_counted===undefined)?g.carbs:g.carbs_counted)} · G ${round(g.fat)} · F ${round(g.fiber)}</td>
       <td>${g.source||""}</td>
       <td><div class="mini-actions"><button class="btn soft" onclick="editIngredient('${g.key}')">Editar</button><button class="btn danger" onclick="deleteIngredient('${g.key}')">Eliminar</button></div></td>
     </tr>`).join("")}
@@ -492,7 +583,7 @@ function clearIngredientForm(){
   el.ingredientBrand.value="";
   el.ingredientKey.value="";
   el.ingredientBaseUnit.value="g";
-  ["ingredientKcal","ingredientProtein","ingredientCarbs","ingredientFat","ingredientFiber","ingredientUnitWeight","ingredientPackWeight","ingredientDropsPerMl","ingredientTbspWeight","ingredientTspWeight","ingredientTbspMl","ingredientTspMl","ingredientCupMl"].forEach(k=>el[k].value="");
+  ["ingredientKcal","ingredientProtein","ingredientCarbs","ingredientCarbsCounted","ingredientFat","ingredientFiber","ingredientUnitWeight","ingredientPackWeight","ingredientDropsPerMl","ingredientTbspWeight","ingredientTspWeight","ingredientTbspMl","ingredientTspMl","ingredientCupMl"].forEach(k=>el[k].value="");
   el.ingredientSource.value="genérico";
 }
 function editIngredient(key){
@@ -507,6 +598,7 @@ function editIngredient(key){
   el.ingredientKcal.value=g.kcal??0;
   el.ingredientProtein.value=g.protein??0;
   el.ingredientCarbs.value=g.carbs??0;
+  el.ingredientCarbsCounted.value=g.carbs_counted??"";
   el.ingredientFat.value=g.fat??0;
   el.ingredientFiber.value=g.fiber??0;
   el.ingredientSource.value=g.source||"genérico";
@@ -560,6 +652,7 @@ el.ingredientForm.onsubmit=async e=>{
     kcal:Number(el.ingredientKcal.value),
     protein:Number(el.ingredientProtein.value),
     carbs:Number(el.ingredientCarbs.value),
+    carbs_counted:nullableNumber(el.ingredientCarbsCounted.value),
     fat:Number(el.ingredientFat.value),
     fiber:Number(el.ingredientFiber.value),
     source:el.ingredientSource.value,
@@ -588,6 +681,21 @@ el.ingredientForm.onsubmit=async e=>{
   renderIngredientAdmin();
 };
 
+
+el.recipeImageFile.addEventListener("change",()=>{
+  const f=el.recipeImageFile.files?.[0];
+  if(!f)return;
+  const url=URL.createObjectURL(f);
+  setRecipePhotoPreview(url);
+  el.recipeRemoveImage.checked=false;
+});
+el.recipeRemoveImage.addEventListener("change",()=>{
+  if(el.recipeRemoveImage.checked)setRecipePhotoPreview("");
+  else{
+    const current=el.recipeImagePreview.dataset.currentUrl||"";
+    if(current)setRecipePhotoPreview(current);
+  }
+});
 el.servings.addEventListener("input",updateRecipeNutritionPreview);
 [q,cat,flt].forEach(el=>el.addEventListener("input",render));
 sb.auth.onAuthStateChange(()=>refreshAuth());
