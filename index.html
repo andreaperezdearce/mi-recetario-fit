@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mi Recetario Fit</title>
+<meta name="app-version" content="unidades-seguras-v1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;background:#f7f0e7;color:#382b24}
@@ -174,8 +175,47 @@ const el = {
   ingredientCupMl: document.getElementById("ingredientCupMl")
 };
 function round(n,d=1){return Math.round(n*10**d)/10**d}
-function baseAmount(i){const g=ING[i.key];if(!g)return 0;if(i.unit==="g"||i.unit==="ml")return i.qty;if(i.unit==="un"&&g.unit_weight)return i.qty*g.unit_weight;if(i.unit==="pote"&&g.pack_weight)return i.qty*g.pack_weight;if(i.unit==="gotas"&&g.drops_per_ml)return i.qty/g.drops_per_ml;if(i.unit==="cda")return i.qty*(g.tbsp_weight||g.tbsp_ml||1);if(i.unit==="cdta")return i.qty*(g.tsp_weight||g.tsp_ml||1);if(i.unit==="taza")return i.qty*(g.cup_ml||1);return i.qty}
-function calcItem(i){const g=ING[i.key],f=baseAmount(i)/100;return{kcal:g.kcal*f,protein:g.protein*f,carbs:g.carbs*f,fat:g.fat*f,fiber:g.fiber*f}}
+function validUnitsForIngredient(g){
+  if(!g)return [];
+  const units=[];
+  const base=(g.base_unit==="ml"?"ml":"g");
+  units.push(base);
+  if(Number(g.unit_weight)>0)units.push("un");
+  if(Number(g.pack_weight)>0)units.push("pote");
+  if(base==="ml"&&Number(g.drops_per_ml)>0)units.push("gotas");
+  if(base==="g"&&Number(g.tbsp_weight)>0)units.push("cda");
+  if(base==="ml"&&Number(g.tbsp_ml)>0)units.push("cda");
+  if(base==="g"&&Number(g.tsp_weight)>0)units.push("cdta");
+  if(base==="ml"&&Number(g.tsp_ml)>0)units.push("cdta");
+  if(base==="ml"&&Number(g.cup_ml)>0)units.push("taza");
+  return [...new Set(units)];
+}
+function conversionFactor(g,unit){
+  if(!g)return null;
+  const base=(g.base_unit==="ml"?"ml":"g");
+  if(unit===base)return 1;
+  if(unit==="un"&&Number(g.unit_weight)>0)return Number(g.unit_weight);
+  if(unit==="pote"&&Number(g.pack_weight)>0)return Number(g.pack_weight);
+  if(unit==="gotas"&&base==="ml"&&Number(g.drops_per_ml)>0)return 1/Number(g.drops_per_ml);
+  if(unit==="cda"&&base==="g"&&Number(g.tbsp_weight)>0)return Number(g.tbsp_weight);
+  if(unit==="cda"&&base==="ml"&&Number(g.tbsp_ml)>0)return Number(g.tbsp_ml);
+  if(unit==="cdta"&&base==="g"&&Number(g.tsp_weight)>0)return Number(g.tsp_weight);
+  if(unit==="cdta"&&base==="ml"&&Number(g.tsp_ml)>0)return Number(g.tsp_ml);
+  if(unit==="taza"&&base==="ml"&&Number(g.cup_ml)>0)return Number(g.cup_ml);
+  return null;
+}
+function baseAmount(i){
+  const g=ING[i.key];
+  const factor=conversionFactor(g,i.unit);
+  if(factor===null)return null;
+  return Number(i.qty)*factor;
+}
+function calcItem(i){
+  const g=ING[i.key],base=baseAmount(i);
+  if(!g||base===null)return{kcal:0,protein:0,carbs:0,fat:0,fiber:0};
+  const f=base/100;
+  return{kcal:g.kcal*f,protein:g.protein*f,carbs:g.carbs*f,fat:g.fat*f,fiber:g.fiber*f}
+}
 function calcRecipe(r){return r.items.map(calcItem).reduce((a,n)=>({kcal:a.kcal+n.kcal,protein:a.protein+n.protein,carbs:a.carbs+n.carbs,fat:a.fat+n.fat,fiber:a.fiber+n.fiber}),{kcal:0,protein:0,carbs:0,fat:0,fiber:0})}
 function refreshCats(){const cur=cat.value,cs=[...new Set(RECIPES.map(r=>r.category))].sort();cat.innerHTML='<option value="">Todas las categorías</option>'+cs.map(c=>`<option>${c}</option>`).join("");cat.value=cs.includes(cur)?cur:""}
 function matches(r){const t=calcRecipe(r),p={kcal:t.kcal/r.servings,protein:t.protein/r.servings},s=q.value.trim().toLowerCase(),txt=(r.name+" "+r.items.map(i=>((ING[i.key]?.name||"")+" "+(ING[i.key]?.brand||""))).join(" ")).toLowerCase();let ok=!s||txt.includes(s);ok=ok&&(!cat.value||r.category===cat.value);if(flt.value==="low")ok=ok&&p.kcal<300;if(flt.value==="protein")ok=ok&&p.protein>=20;if(flt.value==="quick")ok=ok&&r.time_minutes<30;return ok}
@@ -184,7 +224,36 @@ function displayItem(i,f){const g=ING[i.key],n=round(i.qty*f,2);if(i.unit==="un"
 function openRecipe(id){const r=RECIPES.find(x=>x.id===id);let serv=r.servings;function draw(){const f=serv/r.servings,t=calcRecipe(r),adj=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v*f])),per=Object.fromEntries(Object.entries(adj).map(([k,v])=>[k,v/serv]));el.viewTitle.textContent=r.name;el.viewContent.innerHTML=`<span class="tag">${r.category}</span><div class="serv"><strong>Porciones:</strong><button id="minus">−</button><strong>${serv}</strong><button id="plus">+</button></div><h3>Información nutricional</h3><table><tr><th></th><th>Receta ajustada</th><th>Por porción</th></tr>${[["kcal","Calorías"," kcal"],["protein","Proteínas"," g"],["carbs","Carbohidratos"," g"],["fat","Grasas"," g"],["fiber","Fibra"," g"]].map(x=>`<tr><td>${x[1]}</td><td>${round(adj[x[0]])}${x[2]}</td><td>${round(per[x[0]])}${x[2]}</td></tr>`).join("")}</table><h3>Ingredientes</h3><ul>${r.items.map(i=>`<li>${displayItem(i,f)} ${ING[i.key].brand?`<span class="brand-pill">${ING[i.key].brand}</span>`:""} <span class="source">${ING[i.key].source}</span></li>`).join("")}</ul><h3>Preparación</h3><ol>${r.steps.map(s=>`<li>${s}</li>`).join("")}</ol>`;minus.onclick=()=>{if(serv>1){serv--;draw()}};plus.onclick=()=>{serv++;draw()}}draw();viewDlg.showModal()}
 function ingredientLabel(v){return v.brand?`${v.name} — ${v.brand}`:v.name}
 function ingredientSelect(selected=""){return `<select class="ing-key">${Object.entries(ING).sort((a,b)=>ingredientLabel(a[1]).localeCompare(ingredientLabel(b[1]))).map(([k,v])=>`<option value="${k}" ${k===selected?"selected":""}>${ingredientLabel(v)}</option>`).join("")}</select>`}
-function addIngredientRow(item={key:Object.keys(ING)[0],qty:100,unit:"g"}){const d=document.createElement("div");d.className="ingredient-row";d.innerHTML=`<div>${ingredientSelect(item.key)}</div><div><input class="ing-qty" type="number" step="0.01" min="0" value="${item.qty}" required></div><div><select class="ing-unit">${["g","ml","un","pote","gotas","cda","cdta","taza"].map(u=>`<option ${u===item.unit?"selected":""}>${u}</option>`).join("")}</select></div><button type="button" class="btn danger">×</button>`;d.querySelector("button").onclick=()=>d.remove();el.ingredientRows.appendChild(d)}
+function unitLabel(u){
+  return ({g:"g",ml:"ml",un:"unidad",pote:"pote",gotas:"gotas",cda:"cda",cdta:"cdta",taza:"taza"})[u]||u;
+}
+function fillUnitSelect(select,key,preferredUnit=null){
+  const g=ING[key];
+  const valid=validUnitsForIngredient(g);
+  let chosen=preferredUnit&&valid.includes(preferredUnit)?preferredUnit:(valid[0]||"g");
+  select.innerHTML=valid.map(u=>`<option value="${u}" ${u===chosen?"selected":""}>${unitLabel(u)}</option>`).join("");
+  if(preferredUnit&&!valid.includes(preferredUnit)){
+    const opt=document.createElement("option");
+    opt.value=preferredUnit;
+    opt.textContent=`⚠ ${unitLabel(preferredUnit)} — falta equivalencia`;
+    opt.selected=true;
+    select.appendChild(opt);
+    select.dataset.invalid="1";
+  }else{
+    delete select.dataset.invalid;
+  }
+}
+function addIngredientRow(item={key:Object.keys(ING)[0],qty:100,unit:null}){
+  const d=document.createElement("div");
+  d.className="ingredient-row";
+  d.innerHTML=`<div>${ingredientSelect(item.key)}</div><div><input class="ing-qty" type="number" step="0.01" min="0" value="${item.qty}" required></div><div><select class="ing-unit"></select></div><button type="button" class="btn danger">×</button>`;
+  const keySelect=d.querySelector(".ing-key");
+  const unitSelect=d.querySelector(".ing-unit");
+  fillUnitSelect(unitSelect,keySelect.value,item.unit);
+  keySelect.addEventListener("change",()=>fillUnitSelect(unitSelect,keySelect.value,null));
+  d.querySelector("button").onclick=()=>d.remove();
+  el.ingredientRows.appendChild(d)
+}
 function clearForm(){
   el.editId.value="";
   el.name.value="";
@@ -227,6 +296,14 @@ el.recipeForm.onsubmit=async e=>{
     qty:+row.querySelector(".ing-qty").value,
     unit:row.querySelector(".ing-unit").value
   })).filter(i=>i.qty>0);
+
+  for(const item of items){
+    const g=ING[item.key];
+    if(conversionFactor(g,item.unit)===null){
+      alert(`No se puede guardar: "${ingredientLabel(g)}" no tiene equivalencia definida para ${unitLabel(item.unit)}. Edita el ingrediente y agrega esa equivalencia, o selecciona otra unidad.`);
+      return;
+    }
+  }
 
   const obj={
     name:el.name.value.trim(),
