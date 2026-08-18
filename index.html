@@ -93,26 +93,50 @@ option {
 
 /* Única excepción: título principal del recetario */
 header h1 {
-  font-weight: 700 !important;
+  font-weight: 400 !important;
 }
 </style>
 
+<style id="editorial-redesign">
+:root{--bg:#f8f4ee;--paper:#fffdf9;--brown:#4b3326;--brown2:#75533f;--ink:#2f2824;--muted:#83766c;--line:#e4d7ca;--sage:#9ca78a;--sage-soft:#edf0e6;--sand:#f3e8d7}
+*{box-sizing:border-box}body{background:var(--bg)!important;color:var(--ink)!important;font-family:"Segoe UI",Arial,sans-serif!important;font-weight:400!important}.wrap{max-width:1240px!important;margin:auto}
+header{background:var(--bg)!important;color:var(--ink)!important;padding:34px 24px 20px!important;box-shadow:none!important}.hero-row{display:flex;justify-content:space-between;align-items:flex-start;gap:28px}.brand{display:flex;gap:14px}.brand-mark{font-family:Georgia,serif;font-size:2.5rem;color:var(--sage);line-height:1;margin-top:9px}
+h1{font-family:Georgia,"Times New Roman",serif!important;font-weight:400!important;font-size:clamp(2.6rem,6vw,4.3rem)!important;line-height:.95;letter-spacing:-.035em;margin:0!important}.lead{color:var(--muted)!important;font-size:1rem;margin:12px 0 0!important;opacity:1!important}
+.top-actions{display:flex;gap:12px;flex-wrap:wrap}.btn{font-weight:400!important;border-radius:10px!important;padding:12px 17px!important;box-shadow:none!important;transform:none!important}.btn.primary,.btn:not(.soft):not(.danger):not(.outline):not(.light){background:var(--brown)!important;color:#fff!important}.btn.outline,.btn.light{background:transparent!important;color:var(--brown)!important;border:1px solid var(--line)!important}.btn.soft{background:#efe5da!important;color:var(--brown)!important}.btn.danger{background:transparent!important;color:#8b533a!important;border:1px solid #b78d77!important}
+.tools{display:grid!important;grid-template-columns:minmax(260px,1.45fr) minmax(190px,.85fr) minmax(190px,.85fr)!important;gap:14px!important;margin-top:28px;max-width:830px}.search-wrap{position:relative}.search-wrap span{position:absolute;left:15px;top:11px;color:var(--muted);font-size:1.25rem}.search-wrap input{width:100%;padding-left:42px!important}input,select,textarea{border:1px solid var(--line)!important;background:rgba(255,255,255,.72)!important;border-radius:10px!important;color:var(--ink)!important}
+main{padding:8px 24px 60px!important}.count-line{font-size:.88rem;color:var(--muted);margin:10px 0 16px}.grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:28px!important}.card{background:var(--paper)!important;border:1px solid var(--line)!important;border-radius:16px!important;box-shadow:none!important;overflow:hidden}.visual,.visual.has-photo{height:220px!important;background:#e8ddcf!important}.visual.has-photo::before{display:none!important}.visual.has-photo img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important}
+.body{padding:16px 18px 17px!important}.tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.tag{font-weight:400!important;background:var(--sage-soft)!important;color:#4e5446!important;padding:5px 10px!important;border-radius:999px!important;font-size:.75rem!important}.tags .tag:nth-child(even){background:var(--sand)!important;color:#6a5140!important}.body h2{font-family:Georgia,"Times New Roman",serif!important;font-weight:400!important;font-size:1.42rem!important;line-height:1.1!important;margin:9px 0 10px!important}.meta{font-size:.84rem!important;color:var(--muted)!important}.macros{gap:8px!important;margin:15px 0!important}.macro{background:#f7f2ec!important;border:0!important;border-radius:9px!important;padding:10px 3px!important}.macro b{font-weight:400!important;color:var(--ink)!important;font-size:.82rem!important}.actions{gap:10px!important}.actions .btn{padding:10px 8px!important}
+.category-info{margin-top:28px;border:1px solid #dde1d2;background:#f1f2ea;border-radius:14px;padding:20px;display:flex;gap:16px;align-items:center;color:#4f5549}.category-info-icon{font-family:Georgia,serif;font-size:2rem;width:48px;height:48px;border:1px solid #b9c0a6;border-radius:50%;display:grid;place-items:center}.category-info strong{display:block;font-weight:400;margin-bottom:5px}.category-info small{display:block;color:#74796c;margin-top:5px}
+.category-choices{display:flex;flex-wrap:wrap;gap:9px}.category-choice{position:relative;display:inline-flex;cursor:pointer}.category-choice input{position:absolute;opacity:0}.category-choice span{display:inline-block;border:1px solid var(--line);background:#fffaf5;border-radius:999px;padding:8px 12px;color:var(--brown)}.category-choice.selected span{background:var(--sage-soft);border-color:#cbd1bb;color:#4f5548}.ingredient-row .ing-qty{text-align:center}
+@media(max-width:900px){.hero-row{flex-direction:column}.grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}@media(max-width:620px){header{padding:24px 16px 16px!important}main{padding:8px 16px 45px!important}.tools{grid-template-columns:1fr!important;max-width:none}.grid{grid-template-columns:1fr!important}.visual,.visual.has-photo{height:230px!important}.brand-mark{display:none}.top-actions{width:100%}.top-actions .btn{flex:1}}
+</style>
 </head>
 <body>
-<header><div class="wrap"><h1>Mi Recetario Fit</h1><div class="lead">Recetas sincronizadas online con Supabase.</div>
-<div class="tools">
-<input id="q" placeholder="Buscar receta o ingrediente…">
-<select id="cat"><option value="">Todas las categorías</option></select>
-<select id="flt"><option value="">Todos los filtros</option><option value="low">Menos de 300 kcal</option><option value="protein">20 g o más proteína</option><option value="quick">Menos de 30 min</option></select>
-<button class="btn light hidden" id="newBtn">+ Nueva receta</button>
-<button class="btn light hidden" id="ingredientsBtn">Ingredientes</button>
-<button class="btn light" id="loginBtn">Administrador</button>
-</div><div class="status" id="authStatus"></div></div></header>
-<main><div class="wrap"><div id="count">Cargando…</div><section id="grid" class="grid"></section></div></main>
+<header>
+  <div class="wrap">
+    <div class="hero-row">
+      <div class="brand"><div class="brand-mark">❧</div><div><h1>Mi Recetario Fit</h1><div class="lead">Tus recetas saludables, organizadas a tu manera.</div></div></div>
+      <div class="top-actions">
+        <button class="btn primary hidden" id="newBtn">＋ Nueva receta</button>
+        <button class="btn outline hidden" id="ingredientsBtn">♨ Ingredientes</button>
+        <button class="btn outline" id="loginBtn">Administrador</button>
+      </div>
+    </div>
+    <div class="tools">
+      <div class="search-wrap"><span>⌕</span><input id="q" placeholder="Buscar ingrediente, receta…"></div>
+      <select id="cat"><option value="">Todas las categorías</option></select>
+      <select id="flt"><option value="">Todos los filtros</option><option value="low">Menos de 300 kcal</option><option value="protein">20 g o más proteína</option><option value="quick">Menos de 30 min</option></select>
+    </div>
+    <div class="status" id="authStatus"></div>
+  </div>
+</header>
+<main><div class="wrap"><div id="count" class="count-line">Cargando…</div><section id="grid" class="grid"></section>
+<section class="category-info"><div class="category-info-icon">❧</div><div><strong>Categorías disponibles</strong><div>Desayuno · Almuerzo/cena · Snack · Salsas · Postres</div><small>Puedes seleccionar una o varias categorías por receta.</small></div></section>
+</div></main>
 
 <dialog id="loginDlg"><div class="dh"><strong>Acceso administrador</strong><button class="btn soft" onclick="loginDlg.close()">Cerrar</button></div><form class="dc" id="loginForm"><div class="formgrid"><div class="fg full"><label>Email</label><input id="loginEmail" type="email" required></div><div class="fg full"><label>Contraseña</label><input id="loginPassword" type="password" required></div><div class="fg full"><button class="btn" type="submit">Ingresar</button></div><div class="fg full" id="loginMsg"></div></div></form></dialog>
 <dialog id="viewDlg"><div class="dh"><strong id="viewTitle"></strong><button class="btn soft" onclick="viewDlg.close()">Cerrar</button></div><div class="dc" id="viewContent"></div></dialog>
-<dialog id="editDlg"><div class="dh"><strong id="editTitle">Nueva receta</strong><button class="btn soft" onclick="editDlg.close()">Cerrar</button></div><form class="dc" id="recipeForm"><input type="hidden" id="editId"><div class="formgrid"><div class="fg"><label>Nombre</label><input id="name" required></div><div class="fg"><label>Categoría</label><input id="category" list="categoryOptions" required placeholder="Ej.: Desayuno"><datalist id="categoryOptions"></datalist><div class="recipe-helper">Puedes elegir una categoría existente o escribir una nueva.</div></div><div class="fg"><label>Porciones</label><input id="servings" type="number" min="1" value="1" required></div><div class="fg"><label>Tiempo total (min)</label><input id="time" type="number" min="1" value="20" required></div><div class="fg"><label>Ícono</label><input id="emoji" value="🥗"></div><div class="fg"><label>Ingredientes</label><button type="button" class="btn soft" id="addIngredient">+ Agregar ingrediente</button><div class="recipe-helper">Las unidades disponibles dependen de las equivalencias configuradas para cada ingrediente.</div></div>
+<dialog id="editDlg"><div class="dh"><strong id="editTitle">Nueva receta</strong><button class="btn soft" onclick="editDlg.close()">Cerrar</button></div><form class="dc" id="recipeForm"><input type="hidden" id="editId"><div class="formgrid"><div class="fg"><label>Nombre</label><input id="name" required></div><div class="fg full"><label>Categorías</label><input id="category" type="hidden"><div id="categoryChoices" class="category-choices"></div><div class="recipe-helper">Selecciona una o varias. Ej.: Snack + Postres.</div></div><div class="fg"><label>Porciones</label><input id="servings" type="number" min="1" value="1" required></div><div class="fg"><label>Tiempo total (min)</label><input id="time" type="number" min="1" value="20" required></div><div class="fg"><label>Ícono</label><input id="emoji" value="🥗"></div><div class="fg"><label>Ingredientes</label><button type="button" class="btn soft" id="addIngredient">+ Agregar ingrediente</button><div class="recipe-helper">Las unidades disponibles dependen de las equivalencias configuradas para cada ingrediente.</div></div>
 <div class="fg full">
   <div class="ingredient-head"><span>Ingrediente</span><span>Cantidad</span><span>Unidad</span><span></span></div>
   <div id="ingredientRows"></div>
@@ -242,6 +266,7 @@ const el = {
   editId: document.getElementById("editId"),
   name: document.getElementById("name"),
   category: document.getElementById("category"),
+  categoryChoices: document.getElementById("categoryChoices"),
   servings: document.getElementById("servings"),
   time: document.getElementById("time"),
   emoji: document.getElementById("emoji"),
@@ -276,7 +301,6 @@ const el = {
   ingredientTbspMl: document.getElementById("ingredientTbspMl"),
   ingredientTspMl: document.getElementById("ingredientTspMl"),
   ingredientCupMl: document.getElementById("ingredientCupMl"),
-  categoryOptions: document.getElementById("categoryOptions"),
   recipeNutritionPreview: document.getElementById("recipeNutritionPreview"),
   recipeImageFile: document.getElementById("recipeImageFile"),
   recipeImagePreview: document.getElementById("recipeImagePreview"),
@@ -284,9 +308,43 @@ const el = {
   recipeRemoveImage: document.getElementById("recipeRemoveImage")
 };
 function round(n,d=1){return Math.round(n*10**d)/10**d}
-function prettyCategory(v){
+const CATEGORY_LIST=["Desayuno","Almuerzo/cena","Snack","Salsas","Postres"];
+function normalizeCategoryName(v){
   const s=String(v||"").trim().toLowerCase();
-  return s ? s.charAt(0).toUpperCase()+s.slice(1) : "";
+  if(s==="desayuno")return "Desayuno";
+  if(s==="almuerzo"||s==="cena"||s==="almuerzo/cena"||s==="almuerzo / cena")return "Almuerzo/cena";
+  if(s==="snack")return "Snack";
+  if(s==="salsa"||s==="salsas")return "Salsas";
+  if(s==="postre"||s==="postres")return "Postres";
+  return "";
+}
+function recipeCategories(r){
+  const raw=String(r?.category||"");
+  const parts=raw.split(/\s*(?:\||,|;)\s*/).filter(Boolean);
+  return [...new Set(parts.map(normalizeCategoryName).filter(Boolean))];
+}
+function categoryValue(cats){return [...new Set((cats||[]).map(normalizeCategoryName).filter(Boolean))].join("|")}
+function prettyCategory(v){return normalizeCategoryName(v)||String(v||"").trim()}
+function renderCategoryChoices(selected=[]){
+  const chosen=new Set((selected||[]).map(normalizeCategoryName).filter(Boolean));
+  el.categoryChoices.innerHTML=CATEGORY_LIST.map(c=>`<label class="category-choice ${chosen.has(c)?"selected":""}"><input type="checkbox" value="${c}" ${chosen.has(c)?"checked":""}><span>${c}</span></label>`).join("");
+  el.categoryChoices.querySelectorAll('input[type="checkbox"]').forEach(cb=>cb.addEventListener("change",()=>{cb.closest(".category-choice").classList.toggle("selected",cb.checked);el.category.value=categoryValue([...el.categoryChoices.querySelectorAll('input:checked')].map(x=>x.value))}));
+  el.category.value=categoryValue([...chosen]);
+}
+function selectedCategories(){return [...el.categoryChoices.querySelectorAll('input:checked')].map(x=>x.value)}
+function parseQuantity(v){
+  const s=String(v??"").trim().replace(",",".").replace("½","1/2").replace("¼","1/4").replace("¾","3/4");
+  if(!s)return 0;
+  const mixed=s.match(/^(\d+)\s+(\d+)\/(\d+)$/); if(mixed)return Number(mixed[1])+Number(mixed[2])/Number(mixed[3]);
+  const frac=s.match(/^(\d+)\/(\d+)$/); if(frac&&Number(frac[2])!==0)return Number(frac[1])/Number(frac[2]);
+  const n=Number(s); return Number.isFinite(n)?n:0;
+}
+function formatQuantity(n){
+  const x=Number(n),whole=Math.floor(x+.001),frac=x-whole;
+  const map=[[.25,"¼"],[.5,"½"],[.75,"¾"],[1/3,"⅓"],[2/3,"⅔"]];
+  const hit=map.find(([v])=>Math.abs(frac-v)<.015);
+  if(hit)return whole?`${whole} ${hit[1]}`:hit[1];
+  return String(round(x,2));
 }
 function safeFileName(name){
   return String(name||"foto").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9._-]+/g,"_");
@@ -356,17 +414,12 @@ function calcItem(i){
 }
 function calcRecipe(r){return r.items.map(calcItem).reduce((a,n)=>({kcal:a.kcal+n.kcal,protein:a.protein+n.protein,carbs:a.carbs+n.carbs,fat:a.fat+n.fat,fiber:a.fiber+n.fiber}),{kcal:0,protein:0,carbs:0,fat:0,fiber:0})}
 
-function refreshCategoryOptions(){
-  const defaults=["Desayuno","Almuerzo","Cena","Snack","Postres","Bebidas","Salsas","Panadería"];
-  const existing=RECIPES.map(r=>r.category).filter(Boolean);
-  const all=[...new Set([...defaults,...existing])].sort((a,b)=>a.localeCompare(b));
-  el.categoryOptions.innerHTML=all.map(c=>`<option value="${c}"></option>`).join("");
-}
+function refreshCategoryOptions(){renderCategoryChoices([])}
 function currentDraftNutrition(){
   const rows=[...document.querySelectorAll(".ingredient-row")];
   const items=rows.map(row=>({
     key:row.querySelector(".ing-key")?.value,
-    qty:+(row.querySelector(".ing-qty")?.value||0),
+    qty:parseQuantity(row.querySelector(".ing-qty")?.value||0),
     unit:row.querySelector(".ing-unit")?.value
   })).filter(i=>i.key&&i.qty>0&&i.unit);
   const totals=items.map(calcItem).reduce((a,n)=>({
@@ -395,8 +448,8 @@ function updateRecipeNutritionPreview(){
       <div class="muted">Total: ${round(totals[k],d)}</div>
     </div>`).join("");
 }
-function refreshCats(){const cur=cat.value,cs=[...new Set(RECIPES.map(r=>r.category))].sort();cat.innerHTML='<option value="">Todas las categorías</option>'+cs.map(c=>`<option>${prettyCategory(c)}</option>`).join("");cat.value=cs.includes(cur)?cur:""}
-function matches(r){const t=calcRecipe(r),p={kcal:t.kcal/r.servings,protein:t.protein/r.servings},s=q.value.trim().toLowerCase(),txt=(r.name+" "+r.items.map(i=>((ING[i.key]?.name||"")+" "+(ING[i.key]?.brand||""))).join(" ")).toLowerCase();let ok=!s||txt.includes(s);ok=ok&&(!cat.value||r.category===cat.value);if(flt.value==="low")ok=ok&&p.kcal<300;if(flt.value==="protein")ok=ok&&p.protein>=20;if(flt.value==="quick")ok=ok&&r.time_minutes<30;return ok}
+function refreshCats(){const cur=cat.value;cat.innerHTML='<option value="">Todas las categorías</option>'+CATEGORY_LIST.map(c=>`<option value="${c}">${c}</option>`).join("");cat.value=CATEGORY_LIST.includes(cur)?cur:""}
+function matches(r){const t=calcRecipe(r),p={kcal:t.kcal/r.servings,protein:t.protein/r.servings},s=q.value.trim().toLowerCase(),txt=(r.name+" "+r.items.map(i=>((ING[i.key]?.name||"")+" "+(ING[i.key]?.brand||""))).join(" ")).toLowerCase();let ok=!s||txt.includes(s);ok=ok&&(!cat.value||recipeCategories(r).includes(cat.value));if(flt.value==="low")ok=ok&&p.kcal<300;if(flt.value==="protein")ok=ok&&p.protein>=20;if(flt.value==="quick")ok=ok&&r.time_minutes<30;return ok}
 function render(){
   refreshCats();
   const list=RECIPES.filter(matches);
@@ -407,7 +460,7 @@ function render(){
       ? `<div class="visual has-photo" style="--photo-bg:url(\'${r.image_url}\')"><img src="${r.image_url}" alt="${r.name}" loading="lazy"></div>`
       : `<div class="visual">${r.emoji||"🥗"}</div>`;
     return `<article class="card">${visual}<div class="body">
-      <span class="tag">${prettyCategory(r.category)}</span>
+      <div class="tags">${recipeCategories(r).map(c=>`<span class="tag">${c}</span>`).join("")}</div>
       <h2>${r.name}</h2>
       <div class="meta">⏱ ${r.time_minutes} min · 🍽 ${r.servings} porciones</div>
       <div class="macros">
@@ -421,7 +474,7 @@ function render(){
     </div></article>`
   }).join("")
 }
-function displayItem(i,f){const g=ING[i.key],n=round(i.qty*f,2);if(i.unit==="un"){let pl=g.name;if(g.name==="Huevo entero")pl="Huevos enteros";else if(g.name==="Clara de huevo")pl="Claras de huevo";if(Number.isInteger(n))return `${n} ${n===1?g.name.toLowerCase():pl.toLowerCase()}`;const gr=g.unit_weight?round(n*g.unit_weight,0):null;return gr?`${n} ${pl.toLowerCase()} (aprox. ${gr} g)`:`${n} ${pl.toLowerCase()}`}return `${n} ${i.unit} de ${g.name.toLowerCase()}`}
+function displayItem(i,f){const g=ING[i.key],n=round(i.qty*f,3),qty=formatQuantity(n);if(i.unit==="un"){let pl=g.name;if(g.name==="Huevo entero")pl="Huevos enteros";else if(g.name==="Clara de huevo")pl="Claras de huevo";const noun=n<=1?g.name.toLowerCase():pl.toLowerCase();const gr=g.unit_weight?round(n*g.unit_weight,0):null;return gr&&Math.abs(n-Math.round(n))>.001?`${qty} ${noun} (aprox. ${gr} g)`:`${qty} ${noun}`}return `${qty} ${i.unit} de ${g.name.toLowerCase()}`}
 function openRecipe(id){
   const r=RECIPES.find(x=>x.id===id);
   let serv=r.servings;
@@ -435,7 +488,7 @@ function openRecipe(id){
       ${r.image_url?`<img class="recipe-photo-hero" src="${r.image_url}" alt="${r.name}">`:""}
       <div class="recipe-view-head">
         <div class="recipe-view-meta">
-          <span class="tag">${prettyCategory(r.category)}</span>
+          ${recipeCategories(r).map(c=>`<span class="tag">${c}</span>`).join("")}
           <span class="recipe-view-chip">⏱ ${r.time_minutes} min</span>
         </div>
         <div class="recipe-serv-control">
@@ -507,7 +560,7 @@ function fillUnitSelect(select,key,preferredUnit=null){
 function addIngredientRow(item={key:Object.keys(ING)[0],qty:100,unit:null}){
   const d=document.createElement("div");
   d.className="ingredient-row";
-  d.innerHTML=`<div>${ingredientSelect(item.key)}</div><div><input class="ing-qty" type="number" step="0.01" min="0" value="${item.qty}" required></div><div><select class="ing-unit"></select></div><button type="button" class="btn danger">×</button>`;
+  d.innerHTML=`<div>${ingredientSelect(item.key)}</div><div><input class="ing-qty" type="text" inputmode="decimal" value="${formatQuantity(item.qty)}" placeholder="Ej.: 1/2" required></div><div><select class="ing-unit"></select></div><button type="button" class="btn danger">×</button>`;
   const keySelect=d.querySelector(".ing-key");
   const unitSelect=d.querySelector(".ing-unit");
   fillUnitSelect(unitSelect,keySelect.value,item.unit);
@@ -523,6 +576,7 @@ function clearForm(){
   el.editId.value="";
   el.name.value="";
   el.category.value="";
+  renderCategoryChoices([]);
   el.servings.value=1;
   el.time.value=20;
   el.emoji.value="🥗";
@@ -547,7 +601,7 @@ function editRecipe(id){
   el.editTitle.textContent="Editar receta";
   el.editId.value=r.id;
   el.name.value=r.name;
-  el.category.value=r.category;
+  renderCategoryChoices(recipeCategories(r));
   el.servings.value=r.servings;
   el.time.value=r.time_minutes;
   el.emoji.value=r.emoji||"🥗";
@@ -568,7 +622,7 @@ el.recipeForm.onsubmit=async e=>{
   const rows=[...document.querySelectorAll(".ingredient-row")];
   const items=rows.map(row=>({
     key:row.querySelector(".ing-key").value,
-    qty:+row.querySelector(".ing-qty").value,
+    qty:parseQuantity(row.querySelector(".ing-qty").value),
     unit:row.querySelector(".ing-unit").value
   })).filter(i=>i.qty>0);
 
@@ -592,9 +646,12 @@ el.recipeForm.onsubmit=async e=>{
     }
   }
 
+  const cats=selectedCategories();
+  if(!cats.length){alert("Selecciona al menos una categoría.");return;}
+
   const obj={
     name:el.name.value.trim(),
-    category:prettyCategory(el.category.value),
+    category:categoryValue(selectedCategories()),
     servings:+el.servings.value,
     time_minutes:+el.time.value,
     emoji:el.emoji.value.trim()||"🥗",
