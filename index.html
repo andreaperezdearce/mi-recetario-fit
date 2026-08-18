@@ -16,6 +16,7 @@ main{padding:22px 18px 55px}.grid{display:grid;grid-template-columns:repeat(3,1f
 dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));box-shadow:0 25px 80px #0005}dialog::backdrop{background:#0007}.dh{padding:17px;border-bottom:1px solid #e5d4c2;display:flex;justify-content:space-between;align-items:center}.dc{padding:18px;max-height:78vh;overflow:auto}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.full{grid-column:1/-1}.fg{display:flex;flex-direction:column;gap:5px}.ingredient-head{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin:6px 0 6px;color:#78685c;font-size:.78rem;font-weight:700}.ingredient-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin-bottom:8px}.nutrition-preview{grid-column:1/-1;background:#fbf6f0;border:1px solid #e5d4c2;border-radius:14px;padding:12px}.nutrition-preview-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:8px}.nutrition-preview-item{background:white;border-radius:10px;padding:8px;text-align:center;font-size:.78rem}.nutrition-preview-item b{display:block;font-size:1rem;color:#382b24}.recipe-helper{font-size:.8rem;color:#78685c;margin-top:4px}table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #e5d4c2;text-align:left}.serv{display:flex;gap:10px;align-items:center;margin:14px 0}.serv button{width:38px;height:38px;border-radius:50%;border:0;background:#684936;color:white}.source{font-size:.74rem;background:#f3e7db;color:#684936;padding:3px 6px;border-radius:999px}.status{font-size:.85rem;margin-top:8px}.section-note{font-size:.82rem;color:#78685c;margin-top:2px}.optional-box{grid-column:1/-1;border:1px solid #e5d4c2;border-radius:14px;background:#fbf6f0;padding:12px}.optional-box summary{cursor:pointer;font-weight:700;color:#684936}.optional-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px}.auto-key{font-size:.78rem;color:#8a776a;margin-top:4px}.ing-admin-table{width:100%;border-collapse:collapse}.ing-admin-table th,.ing-admin-table td{padding:8px;border-bottom:1px solid #e5d4c2;vertical-align:top}.ing-admin-table .mini-actions{display:flex;gap:6px;flex-wrap:wrap}.brand-pill{display:inline-block;background:#efe0ce;color:#684936;padding:2px 7px;border-radius:999px;font-size:.75rem}.muted{color:#78685c;font-size:.82rem}
 .visual.has-photo{
   height:200px;
+  position:relative;
   background:#e8ded3;
   padding:0;
   overflow:hidden;
@@ -23,7 +24,20 @@ dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));
   align-items:center;
   justify-content:center;
 }
+.visual.has-photo::before{
+  content:"";
+  position:absolute;
+  inset:-12px;
+  background-image:var(--photo-bg);
+  background-size:cover;
+  background-position:center;
+  filter:blur(12px);
+  transform:scale(1.08);
+  opacity:.35;
+}
 .visual.has-photo img{
+  position:relative;
+  z-index:1;
   width:100%;
   height:100%;
   object-fit:contain;
@@ -358,7 +372,7 @@ function render(){
   grid.innerHTML=list.map(r=>{
     const t=calcRecipe(r),p=Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v/r.servings]));
     const visual=r.image_url
-      ? `<div class="visual has-photo"><img src="${r.image_url}" alt="${r.name}" loading="lazy"></div>`
+      ? `<div class="visual has-photo" style="--photo-bg:url(\'${r.image_url}\')"><img src="${r.image_url}" alt="${r.name}" loading="lazy"></div>`
       : `<div class="visual">${r.emoji||"🥗"}</div>`;
     return `<article class="card">${visual}<div class="body">
       <span class="tag">${r.category}</span>
