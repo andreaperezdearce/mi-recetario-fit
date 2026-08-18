@@ -15,16 +15,17 @@ input,select,textarea,button{font:inherit}input,select,textarea{padding:11px;bor
 main{padding:22px 18px 55px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fffdf9;border:1px solid #e5d4c2;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(67,45,31,.1)}.visual{height:140px;display:grid;place-items:center;font-size:4rem;background:linear-gradient(135deg,#ead7c1,#d4b79a)}.body{padding:16px}.tag{display:inline-block;background:#efe0ce;color:#684936;padding:5px 9px;border-radius:999px;font-size:.8rem;font-weight:700}.meta{color:#78685c;font-size:.9rem}.macros{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:13px 0}.macro{background:#faf4ed;border-radius:9px;padding:7px 4px;text-align:center;font-size:.68rem;color:#78685c}.macro b{display:block;color:#382b24}.actions{display:flex;gap:7px}.actions button{flex:1}
 dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));box-shadow:0 25px 80px #0005}dialog::backdrop{background:#0007}.dh{padding:17px;border-bottom:1px solid #e5d4c2;display:flex;justify-content:space-between;align-items:center}.dc{padding:18px;max-height:78vh;overflow:auto}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.full{grid-column:1/-1}.fg{display:flex;flex-direction:column;gap:5px}.ingredient-head{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin:6px 0 6px;color:#78685c;font-size:.78rem;font-weight:700}.ingredient-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;margin-bottom:8px}.nutrition-preview{grid-column:1/-1;background:#fbf6f0;border:1px solid #e5d4c2;border-radius:14px;padding:12px}.nutrition-preview-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:8px}.nutrition-preview-item{background:white;border-radius:10px;padding:8px;text-align:center;font-size:.78rem}.nutrition-preview-item b{display:block;font-size:1rem;color:#382b24}.recipe-helper{font-size:.8rem;color:#78685c;margin-top:4px}table{width:100%;border-collapse:collapse}th,td{padding:8px;border-bottom:1px solid #e5d4c2;text-align:left}.serv{display:flex;gap:10px;align-items:center;margin:14px 0}.serv button{width:38px;height:38px;border-radius:50%;border:0;background:#684936;color:white}.source{font-size:.74rem;background:#f3e7db;color:#684936;padding:3px 6px;border-radius:999px}.status{font-size:.85rem;margin-top:8px}.section-note{font-size:.82rem;color:#78685c;margin-top:2px}.optional-box{grid-column:1/-1;border:1px solid #e5d4c2;border-radius:14px;background:#fbf6f0;padding:12px}.optional-box summary{cursor:pointer;font-weight:700;color:#684936}.optional-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px}.auto-key{font-size:.78rem;color:#8a776a;margin-top:4px}.ing-admin-table{width:100%;border-collapse:collapse}.ing-admin-table th,.ing-admin-table td{padding:8px;border-bottom:1px solid #e5d4c2;vertical-align:top}.ing-admin-table .mini-actions{display:flex;gap:6px;flex-wrap:wrap}.brand-pill{display:inline-block;background:#efe0ce;color:#684936;padding:2px 7px;border-radius:999px;font-size:.75rem}.muted{color:#78685c;font-size:.82rem}
 .visual.has-photo{
-  height:auto;
-  min-height:140px;
+  height:200px;
   background:#e8ded3;
   padding:0;
   overflow:hidden;
-  display:block;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 .visual.has-photo img{
   width:100%;
-  height:auto;
+  height:100%;
   object-fit:contain;
   display:block;
 }
@@ -712,5 +713,5 @@ el.servings.addEventListener("input",updateRecipeNutritionPreview);
 [q,cat,flt].forEach(el=>el.addEventListener("input",render));
 sb.auth.onAuthStateChange(()=>refreshAuth());
 (async()=>{await loadData();await refreshAuth()})();
-</script></body></html> 
-<!-- redeploy 18-08-2026 -->
+</script><!-- redeploy 18-08-2026 -->
+</body></html>
