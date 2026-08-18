@@ -70,6 +70,33 @@ dialog{border:0;border-radius:20px;padding:0;width:min(840px,calc(100% - 24px));
 @media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.tools{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.recipe-macro-grid{grid-template-columns:repeat(2,1fr)}.recipe-view-head{grid-template-columns:1fr}.recipe-photo-hero{height:210px}.grid{grid-template-columns:1fr}.tools{grid-template-columns:1fr}.macros{grid-template-columns:repeat(2,1fr)}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.optional-box{grid-column:auto}.optional-grid{grid-template-columns:1fr}.ing-admin-table{font-size:.9rem}.ing-admin-table th:nth-child(2),.ing-admin-table td:nth-child(2){display:none}.ingredient-head{display:none}.ingredient-row{grid-template-columns:1fr 1fr}.ingredient-row>div:first-child{grid-column:1/-1}.ingredient-row .btn.danger{width:100%}.nutrition-preview{grid-column:auto}.nutrition-preview-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
+
+<style>
+/* Uniformidad tipográfica solicitada */
+body,
+button,
+input,
+select,
+textarea,
+.btn,
+.tag,
+.meta,
+.macro,
+.macro b,
+.body,
+.body h2,
+.actions button,
+label,
+option {
+  font-weight: 400 !important;
+}
+
+/* Única excepción: título principal del recetario */
+header h1 {
+  font-weight: 700 !important;
+}
+</style>
+
 </head>
 <body>
 <header><div class="wrap"><h1>Mi Recetario Fit</h1><div class="lead">Recetas sincronizadas online con Supabase.</div>
