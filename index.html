@@ -486,6 +486,7 @@ dialog{background:#fffdf9!important;border:1px solid var(--line)!important;borde
           <div class="fg"><label>Gotas por ml</label><input id="ingredientDropsPerMl" type="number" min="0" step="0.01"></div>
           <div class="fg"><label>Peso de 1 cucharada (g)</label><input id="ingredientTbspWeight" type="number" min="0" step="0.01"></div>
           <div class="fg"><label>Peso de 1 cucharadita (g)</label><input id="ingredientTspWeight" type="number" min="0" step="0.01"></div>
+          <div class="fg"><label>Peso de 1 scoop (g)</label><input id="ingredientScoopWeight" type="number" min="0" step="0.01" placeholder="Ej.: 30"></div>
           <div class="fg"><label>Volumen de 1 cucharada (ml)</label><input id="ingredientTbspMl" type="number" min="0" step="0.01"></div>
           <div class="fg"><label>Volumen de 1 cucharadita (ml)</label><input id="ingredientTspMl" type="number" min="0" step="0.01"></div>
           <div class="fg"><label>Volumen de 1 taza (ml)</label><input id="ingredientCupMl" type="number" min="0" step="0.01"></div>
@@ -553,6 +554,7 @@ const el = {
   ingredientDropsPerMl: document.getElementById("ingredientDropsPerMl"),
   ingredientTbspWeight: document.getElementById("ingredientTbspWeight"),
   ingredientTspWeight: document.getElementById("ingredientTspWeight"),
+  ingredientScoopWeight: document.getElementById("ingredientScoopWeight"),
   ingredientTbspMl: document.getElementById("ingredientTbspMl"),
   ingredientTspMl: document.getElementById("ingredientTspMl"),
   ingredientCupMl: document.getElementById("ingredientCupMl"),
@@ -636,6 +638,7 @@ function validUnitsForIngredient(g){
   if(base==="g"&&Number(g.tbsp_weight)>0)units.push("cda");
   if(base==="ml"&&Number(g.tbsp_ml)>0)units.push("cda");
   if(base==="g"&&Number(g.tsp_weight)>0)units.push("cdta");
+  if(base==="g"&&Number(g.scoop_weight)>0)units.push("scoop");
   if(base==="ml"&&Number(g.tsp_ml)>0)units.push("cdta");
   if(base==="ml"&&Number(g.cup_ml)>0)units.push("taza");
   return [...new Set(units)];
@@ -650,6 +653,7 @@ function conversionFactor(g,unit){
   if(unit==="cda"&&base==="g"&&Number(g.tbsp_weight)>0)return Number(g.tbsp_weight);
   if(unit==="cda"&&base==="ml"&&Number(g.tbsp_ml)>0)return Number(g.tbsp_ml);
   if(unit==="cdta"&&base==="g"&&Number(g.tsp_weight)>0)return Number(g.tsp_weight);
+  if(unit==="scoop"&&base==="g"&&Number(g.scoop_weight)>0)return Number(g.scoop_weight);
   if(unit==="cdta"&&base==="ml"&&Number(g.tsp_ml)>0)return Number(g.tsp_ml);
   if(unit==="taza"&&base==="ml"&&Number(g.cup_ml)>0)return Number(g.cup_ml);
   return null;
@@ -794,7 +798,7 @@ function openRecipe(id){
 function ingredientLabel(v){return v.brand?`${v.name} — ${v.brand}`:v.name}
 function ingredientSelect(selected=""){return `<select class="ing-key">${Object.entries(ING).sort((a,b)=>ingredientLabel(a[1]).localeCompare(ingredientLabel(b[1]))).map(([k,v])=>`<option value="${k}" ${k===selected?"selected":""}>${ingredientLabel(v)}</option>`).join("")}</select>`}
 function unitLabel(u){
-  return ({g:"g",ml:"ml",un:"unidad",pote:"pote",gotas:"gotas",cda:"cda",cdta:"cdta",taza:"taza"})[u]||u;
+  return ({g:"g",ml:"ml",un:"unidad",pote:"pote",gotas:"gotas",cda:"cda",cdta:"cdta",scoop:"scoop",taza:"taza"})[u]||u;
 }
 function fillUnitSelect(select,key,preferredUnit=null){
   const g=ING[key];
@@ -954,7 +958,7 @@ function clearIngredientForm(){
   el.ingredientBrand.value="";
   el.ingredientKey.value="";
   el.ingredientBaseUnit.value="g";
-  ["ingredientKcal","ingredientProtein","ingredientCarbs","ingredientCarbsCounted","ingredientFat","ingredientFiber","ingredientUnitWeight","ingredientPackWeight","ingredientDropsPerMl","ingredientTbspWeight","ingredientTspWeight","ingredientTbspMl","ingredientTspMl","ingredientCupMl"].forEach(k=>el[k].value="");
+  ["ingredientKcal","ingredientProtein","ingredientCarbs","ingredientCarbsCounted","ingredientFat","ingredientFiber","ingredientUnitWeight","ingredientPackWeight","ingredientDropsPerMl","ingredientTbspWeight","ingredientTspWeight","ingredientScoopWeight","ingredientTbspMl","ingredientTspMl","ingredientCupMl"].forEach(k=>el[k].value="");
   el.ingredientSource.value="genérico";
 }
 function editIngredient(key){
@@ -978,6 +982,7 @@ function editIngredient(key){
   el.ingredientDropsPerMl.value=g.drops_per_ml??"";
   el.ingredientTbspWeight.value=g.tbsp_weight??"";
   el.ingredientTspWeight.value=g.tsp_weight??"";
+  el.ingredientScoopWeight.value=g.scoop_weight??"";
   el.ingredientTbspMl.value=g.tbsp_ml??"";
   el.ingredientTspMl.value=g.tsp_ml??"";
   el.ingredientCupMl.value=g.cup_ml??"";
@@ -1032,6 +1037,7 @@ el.ingredientForm.onsubmit=async e=>{
     drops_per_ml:nullableNumber(el.ingredientDropsPerMl.value),
     tbsp_weight:nullableNumber(el.ingredientTbspWeight.value),
     tsp_weight:nullableNumber(el.ingredientTspWeight.value),
+    scoop_weight:nullableNumber(el.ingredientScoopWeight.value),
     tbsp_ml:nullableNumber(el.ingredientTbspMl.value),
     tsp_ml:nullableNumber(el.ingredientTspMl.value),
     cup_ml:nullableNumber(el.ingredientCupMl.value)
