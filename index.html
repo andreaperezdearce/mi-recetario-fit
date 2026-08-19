@@ -363,7 +363,7 @@ dialog{background:#fffdf9!important;border:1px solid var(--line)!important;borde
   <ellipse cx="29" cy="31" rx="7.5" ry="4.1" transform="rotate(-38 29 31)" fill="currentColor" opacity=".74"/>
   <ellipse cx="20" cy="18" rx="6.8" ry="3.8" transform="rotate(42 20 18)" fill="currentColor" opacity=".7"/>
 </svg>
-</div><div><h1>Mi Recetario Fit</h1><div class="lead">Tus recetas saludables, organizadas a tu manera.</div></div></div>
+</div><div><h1>Mi Recetario Fit</h1><div class="lead">Recetas fáciles, ricas y saludables · por Andrea Pérez De Arce</div></div></div>
       <div class="top-actions">
         <button class="btn primary hidden" id="newBtn">＋ Nueva receta</button>
         <button class="btn outline hidden" id="ingredientsBtn">♨ Ingredientes</button>
@@ -721,7 +721,7 @@ function render(){
     return `<article class="card">${visual}<div class="body">
       <div class="tags">${recipeCategories(r).map(c=>`<span class="tag">${c}</span>`).join("")}</div>
       <h2>${r.name}</h2>
-      <div class="meta">⏱ ${r.time_minutes} min · 🍽 ${r.servings} porciones</div>
+      <div class="meta">⏱ ${r.time_minutes} min · 🍽 ${r.servings} ${Number(r.servings)===1?"porción":"porciones"}</div>
       <div class="macros">
         <div class="macro"><b>${round(p.kcal,0)}</b>kcal</div>
         <div class="macro"><b>${round(p.protein)} g</b>prot.</div>
