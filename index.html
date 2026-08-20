@@ -489,7 +489,7 @@ dialog{background:#fffdf9!important;border:1px solid var(--line)!important;borde
           <div class="fg"><label>Peso de 1 scoop (g)</label><input id="ingredientScoopWeight" type="number" min="0" step="0.01" placeholder="Ej.: 30"></div>
           <div class="fg"><label>Volumen de 1 cucharada (ml)</label><input id="ingredientTbspMl" type="number" min="0" step="0.01"></div>
           <div class="fg"><label>Volumen de 1 cucharadita (ml)</label><input id="ingredientTspMl" type="number" min="0" step="0.01"></div>
-          <div class="fg"><label>Volumen de 1 taza (ml)</label><input id="ingredientCupMl" type="number" min="0" step="0.01"></div>
+          <div class="fg"><label id="ingredientCupLabel">Equivalencia de 1 taza</label><input id="ingredientCupMl" type="number" min="0" step="0.01"><div class="section-note" id="ingredientCupNote">Para sólidos: gramos por taza. Para líquidos: ml por taza.</div></div>
         </div>
       </details>
 
@@ -558,6 +558,8 @@ const el = {
   ingredientTbspMl: document.getElementById("ingredientTbspMl"),
   ingredientTspMl: document.getElementById("ingredientTspMl"),
   ingredientCupMl: document.getElementById("ingredientCupMl"),
+  ingredientCupLabel: document.getElementById("ingredientCupLabel"),
+  ingredientCupNote: document.getElementById("ingredientCupNote"),
   recipeNutritionPreview: document.getElementById("recipeNutritionPreview"),
   recipeImageFile: document.getElementById("recipeImageFile"),
   recipeImagePreview: document.getElementById("recipeImagePreview"),
@@ -640,7 +642,7 @@ function validUnitsForIngredient(g){
   if(base==="g"&&Number(g.tsp_weight)>0)units.push("cdta");
   if(base==="g"&&Number(g.scoop_weight)>0)units.push("scoop");
   if(base==="ml"&&Number(g.tsp_ml)>0)units.push("cdta");
-  if(base==="ml"&&Number(g.cup_ml)>0)units.push("taza");
+  if(Number(g.cup_ml)>0)units.push("taza");
   return [...new Set(units)];
 }
 function conversionFactor(g,unit){
@@ -655,7 +657,7 @@ function conversionFactor(g,unit){
   if(unit==="cdta"&&base==="g"&&Number(g.tsp_weight)>0)return Number(g.tsp_weight);
   if(unit==="scoop"&&base==="g"&&Number(g.scoop_weight)>0)return Number(g.scoop_weight);
   if(unit==="cdta"&&base==="ml"&&Number(g.tsp_ml)>0)return Number(g.tsp_ml);
-  if(unit==="taza"&&base==="ml"&&Number(g.cup_ml)>0)return Number(g.cup_ml);
+  if(unit==="taza"&&Number(g.cup_ml)>0)return Number(g.cup_ml);
   return null;
 }
 function baseAmount(i){
@@ -933,6 +935,14 @@ el.recipeForm.onsubmit=async e=>{
   await loadData();
 };
 
+function updateCupEquivalenceLabel(){
+  if(!el.ingredientCupLabel||!el.ingredientCupNote)return;
+  const isLiquid=el.ingredientBaseUnit.value==="ml";
+  el.ingredientCupLabel.textContent=isLiquid?"Volumen de 1 taza (ml)":"Peso de 1 taza (g)";
+  el.ingredientCupNote.textContent=isLiquid
+    ?"Ingresa cuántos ml corresponden a 1 taza."
+    :"Ingresa cuántos gramos pesa 1 taza de este ingrediente.";
+}
 function nullableNumber(v){
   const s=String(v??"").trim();
   return s===""?null:Number(s);
@@ -960,6 +970,7 @@ function clearIngredientForm(){
   el.ingredientBaseUnit.value="g";
   ["ingredientKcal","ingredientProtein","ingredientCarbs","ingredientCarbsCounted","ingredientFat","ingredientFiber","ingredientUnitWeight","ingredientPackWeight","ingredientDropsPerMl","ingredientTbspWeight","ingredientTspWeight","ingredientScoopWeight","ingredientTbspMl","ingredientTspMl","ingredientCupMl"].forEach(k=>el[k].value="");
   el.ingredientSource.value="genérico";
+  updateCupEquivalenceLabel();
 }
 function editIngredient(key){
   if(!isAdmin)return;
@@ -986,6 +997,7 @@ function editIngredient(key){
   el.ingredientTbspMl.value=g.tbsp_ml??"";
   el.ingredientTspMl.value=g.tsp_ml??"";
   el.ingredientCupMl.value=g.cup_ml??"";
+  updateCupEquivalenceLabel();
   ingredientEditDlg.showModal();
 }
 async function deleteIngredient(key){
@@ -1004,6 +1016,7 @@ el.newIngredientBtn.onclick=()=>{
   el.ingredientEditTitle.textContent="Nuevo ingrediente";
   ingredientEditDlg.showModal();
 };
+el.ingredientBaseUnit.addEventListener("change",updateCupEquivalenceLabel);
 el.ingredientName.addEventListener("input",()=>{
   if(!el.ingredientKeyOriginal.value)el.ingredientKey.value=slugifyIngredient(el.ingredientName.value+(el.ingredientBrand.value?("_"+el.ingredientBrand.value):""));
 });
@@ -1077,5 +1090,5 @@ el.servings.addEventListener("input",updateRecipeNutritionPreview);
 [q,cat,flt].forEach(el=>el.addEventListener("input",render));
 sb.auth.onAuthStateChange(()=>refreshAuth());
 (async()=>{await loadData();await refreshAuth()})();
-</script><!-- redeploy 18-08-2026 -->
+</script><!-- equivalencia taza g-ml corregida 20-08-2026 -->
 </body></html>
